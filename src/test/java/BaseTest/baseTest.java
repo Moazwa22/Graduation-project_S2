@@ -1,5 +1,6 @@
 package baseTest;
 
+import Pages.HomePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterClass;
@@ -11,9 +12,12 @@ public class baseTest {
 
     @BeforeMethod
     public void setup(){
-
         driver = new FirefoxDriver();
         driver.manage().window().maximize();
+    }
+
+    @BeforeMethod
+    public void openURL(){
         driver.get("http://localhost/opencart/");
     }
 
