@@ -5,12 +5,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
 public class baseTest {
     protected WebDriver driver;
 
-    @BeforeMethod
+    @BeforeClass
     public void setup(){
         driver = new FirefoxDriver();
         driver.manage().window().maximize();
@@ -21,7 +22,7 @@ public class baseTest {
         driver.get("http://localhost/opencart/");
     }
 
-    @AfterMethod
+    @AfterClass
     public void teardown(){
         driver.quit();
     }
