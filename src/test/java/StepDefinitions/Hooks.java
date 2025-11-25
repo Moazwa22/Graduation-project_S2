@@ -16,14 +16,14 @@ public class Hooks {
     @Before
     public void setup(){
         driver = new FirefoxDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         driver.manage().window().maximize();
-        driver.get("https://demo.opencart.com/");
+        driver.get("http://localhost/opencart/");
     }
 
-    @After
+    /*@After
     public void teardown(){
         driver.quit();
-    }
+    }*/
 
 }
