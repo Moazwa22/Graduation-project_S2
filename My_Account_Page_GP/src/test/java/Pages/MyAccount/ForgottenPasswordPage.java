@@ -1,0 +1,12 @@
+package Pages.MyAccount;
+
+import org.openqa.selenium.WebDriver;
+
+public class ForgottenPasswordPage {
+    WebDriver driver;
+    public ForgottenPasswordPage(WebDriver driver)
+
+    {
+        this.driver=driver;
+    }
+}
