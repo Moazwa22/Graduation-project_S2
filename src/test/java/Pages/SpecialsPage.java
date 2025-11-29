@@ -20,15 +20,15 @@ public class SpecialsPage {
 
     public void verifyDiscountedProductsDisplayed() {
         List<WebElement> specialProducts = driver.findElements(products);
-        Assert.assertTrue(specialProducts.size() > 0, "No discounted products found on Specials page!");
+        Assert.assertFalse(specialProducts.isEmpty(), "No discounted products found on Specials page!");
     }
 
     public void verifyOldAndNewPrices() {
         List<WebElement> oldPrices = driver.findElements(oldPrice);
         List<WebElement> newPrices = driver.findElements(newPrice);
 
-        Assert.assertTrue(oldPrices.size() > 0, "Old prices not displayed for discounted products!");
-        Assert.assertTrue(newPrices.size() > 0, "New prices not displayed for discounted products!");
+        Assert.assertFalse(oldPrices.isEmpty(), "Old prices not displayed for discounted products!");
+        Assert.assertFalse(newPrices.isEmpty(), "New prices not displayed for discounted products!");
     }
 }
 

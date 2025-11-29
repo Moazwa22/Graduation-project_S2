@@ -16,7 +16,7 @@ public class Hooks {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
-        driver.get("http://localhost/opencartproject/");
+        driver.get("http://localhost/opencartproject/index.php?route=common/home");
     }
 
     @After

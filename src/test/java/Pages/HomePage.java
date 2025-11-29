@@ -2,6 +2,8 @@ package Pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 public class HomePage {
     WebDriver driver;
@@ -9,6 +11,9 @@ public class HomePage {
     By searchInput = By.name("search");
     By searchButton = By.cssSelector(".btn.btn-light.btn-lg");
     By specialsLink = By.linkText("Specials");
+    By desktopsMenu = By.linkText("Desktops");
+    By macSubCategory = By.linkText("Mac");
+   // By showAllDesktops = By.linkText("Show All Desktops");
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -35,5 +40,17 @@ public class HomePage {
     public void openSpecialsPage() {
         driver.findElement(specialsLink).click();
     }
+
+    public void hoverDesktopsMenu() {
+        WebElement menu = driver.findElement(desktopsMenu);
+        Actions actions = new Actions(driver);
+        actions.moveToElement(menu).perform();
+    }
+
+
+    public void clickMacCatagory() {
+        driver.findElement(macSubCategory).click();
+    }
+
 }
 
