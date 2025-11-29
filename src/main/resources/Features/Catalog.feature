@@ -1,5 +1,4 @@
 Feature: Catalog Page Verification
-  Verify that products are displayed correctly and can be added to cart, wishlist, and comparison list
 
   Background:
     Given the user is on the home page
