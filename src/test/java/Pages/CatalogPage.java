@@ -114,27 +114,42 @@ public class CatalogPage {
 
     // Add To Cart
     public void clickAddToCart() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        WebElement button = wait.until(ExpectedConditions.elementToBeClickable(addToCartButton));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", button);
-        button.click();
+
+        List<WebElement> buttons = driver.findElements(By.cssSelector("button[title='Add to Cart']"));
+        WebElement first = buttons.get(0);
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", first);
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(first)).click();
     }
+
 
     // Add To Wishlist
     public void clickAddToWishlist() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        WebElement button = wait.until(ExpectedConditions.elementToBeClickable(addToWishlistButton));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", button);
-        button.click();
+
+        List<WebElement> buttons = driver.findElements(By.cssSelector("button[title='Add to Wish List']"));
+        WebElement first = buttons.get(0);
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", first);
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(first)).click();
     }
+
 
     // Add To Compare
     public void clickAddToCompare() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        WebElement button = wait.until(ExpectedConditions.elementToBeClickable(addToCompareButton));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", button);
-        button.click();
+
+        List<WebElement> buttons = driver.findElements(By.cssSelector("button[title='Compare this Product']"));
+        WebElement first = buttons.get(0);
+
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", first);
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(first)).click();
     }
+
 
 
 }

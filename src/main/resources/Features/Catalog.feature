@@ -7,7 +7,7 @@ Feature: Catalog Page Verification
     When the user navigates to Mac
     Then the catalog page should display all desktops with their name and price
 
-  Scenario: Verify products in Desktops → Mac category
+  Scenario: Verify products in Desktops (Mac category)
     When the user navigates to the Desktops category
     And the user selects the Mac subcategory
     Then the catalog page should display the available products
