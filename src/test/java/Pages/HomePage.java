@@ -4,6 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class HomePage {
     WebDriver driver;
@@ -12,7 +16,7 @@ public class HomePage {
     By searchButton = By.cssSelector(".btn.btn-light.btn-lg");
     By specialsLink = By.linkText("Specials");
     By desktopsMenu = By.linkText("Desktops");
-    By macSubCategory = By.linkText("Mac");
+   // By macSubCategory = By.linkText("Mac");
    // By showAllDesktops = By.linkText("Show All Desktops");
 
     public HomePage(WebDriver driver) {
@@ -48,8 +52,14 @@ public class HomePage {
     }
 
 
-    public void clickMacCatagory() {
+    /*public void clickMacCatagory() {
         driver.findElement(macSubCategory).click();
+    }*/
+
+    public void clickMacCatagory() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        WebElement mac = wait.until(ExpectedConditions.elementToBeClickable(By.partialLinkText("Mac")));
+        mac.click();
     }
 
 }

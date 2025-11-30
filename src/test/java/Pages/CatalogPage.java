@@ -107,8 +107,8 @@ public class CatalogPage {
     public void verifyProductsHaveNameAndPrice() {
         List<WebElement> names = driver.findElements(productName);
         List<WebElement> prices = driver.findElements(productPrice);
-        Assert.assertTrue(names.size() > 0, "No product names found!");
-        Assert.assertTrue(prices.size() > 0, "No product prices found!");
+        Assert.assertFalse(names.isEmpty() );
+        Assert.assertFalse(prices.isEmpty());
     }
 
     // Add To Cart
