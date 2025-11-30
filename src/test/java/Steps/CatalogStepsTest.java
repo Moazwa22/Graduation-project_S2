@@ -21,7 +21,7 @@ public class CatalogStepsTest {
     @When("the user navigates to Show All Desktops")
     public void theUserNavigatesToShowAllDesktops() {
         home.hoverDesktopsMenu();
-        home.clickMacCatagory();
+        home.clickMacCategory();
     }
 
     @Then("the catalog page should display all desktops with their name and price")

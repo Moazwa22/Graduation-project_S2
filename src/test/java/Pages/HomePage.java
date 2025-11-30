@@ -56,7 +56,7 @@ public class HomePage {
         driver.findElement(macSubCategory).click();
     }*/
 
-    public void clickMacCatagory() {
+    public void clickMacCategory() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         WebElement mac = wait.until(ExpectedConditions.elementToBeClickable(By.partialLinkText("Mac")));
         mac.click();
