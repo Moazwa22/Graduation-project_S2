@@ -18,7 +18,7 @@ public class ProductPage {
     By addToCartBtn = By.id("button-cart");
     By successMessage = By.cssSelector(".alert-success");
     By wishlistButton = By.cssSelector("button[data-bs-original-title='Add to Wish List']");
-    By compareButton = By.cssSelector("button[data-original-title='Compare this Product']");
+    By compareButton = By.cssSelector("button[data-bs-original-title='Compare this Product']");
 
     public ProductPage(WebDriver driver){
         this.driver = driver;

@@ -3,8 +3,8 @@ Feature: Catalog Page Verification
   Background:
     Given the user is on the home page
 
-  Scenario: Verify products when user clicks Show All Desktops
-    When the user navigates to Show All Desktops
+  Scenario: Verify products when user Mac
+    When the user navigates to Mac
     Then the catalog page should display all desktops with their name and price
 
   Scenario: Verify products in Desktops → Mac category

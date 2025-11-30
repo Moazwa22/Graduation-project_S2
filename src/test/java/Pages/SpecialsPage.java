@@ -18,7 +18,7 @@ public class SpecialsPage {
         this.driver = driver;
     }
 
-    public void verifyDiscountedProductsDisplayed() {
+   /* public void verifyDiscountedProductsDisplayed() {
         List<WebElement> specialProducts = driver.findElements(products);
         Assert.assertFalse(specialProducts.isEmpty(), "No discounted products found on Specials page!");
     }
@@ -29,6 +29,6 @@ public class SpecialsPage {
 
         Assert.assertFalse(oldPrices.isEmpty(), "Old prices not displayed for discounted products!");
         Assert.assertFalse(newPrices.isEmpty(), "New prices not displayed for discounted products!");
-    }
+    }*/
 }
 

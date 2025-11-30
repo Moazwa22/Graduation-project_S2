@@ -18,8 +18,8 @@ public class CatalogStepsTest {
         driver.get("http://localhost/opencartproject/index.php?route=common/home");
     }
 
-    @When("the user navigates to Show All Desktops")
-    public void theUserNavigatesToShowAllDesktops() {
+    @When("the user navigates to Mac")
+    public void theUserNavigatesToMac() {
         home.hoverDesktopsMenu();
         home.clickMacCategory();
     }

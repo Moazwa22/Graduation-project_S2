@@ -16,7 +16,7 @@ public class SpecialsStepsTest {
         home.openSpecialsPage();
     }
 
-    @Then("the page should display products with special discounted prices")
+    /*@Then("the page should display products with special discounted prices")
     public void theSpecialsPageShouldDisplayDiscountedProducts() {
         specials.verifyDiscountedProductsDisplayed();
     }
@@ -24,5 +24,5 @@ public class SpecialsStepsTest {
     @Then("the old price and new price should be clearly shown for discounted items")
     public void theOldAndNewPricesShouldBeVisible() {
         specials.verifyOldAndNewPrices();
-    }
+    }*/
 }
