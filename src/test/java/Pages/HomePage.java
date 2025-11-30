@@ -1,155 +1,154 @@
 package Pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+
+import java.time.Duration;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HomePage {
     WebDriver driver;
 
-    public HomePage(WebDriver driver) {
+    public HomePage (WebDriver driver) {
         this.driver = driver;
     }
-
-   // By HomePage = By.xpath()
+    By websiteIsAvailable = By.xpath("//a[@href = 'https://demo.opencart.com/']");
+    By homePageLocator = By.id("carousel-banner-0");
     By products = By.cssSelector(".product-thumb");
     By bannerButtons = By.cssSelector("#menu .nav > li > a");
-    By currencyButton = By.cssSelector(".btn-group > button.dropdown-toggle");
-    By euroCurrency = By.name("EUR");
-    By poundStrCurrency = By.name("GBP");
-    By usDollarCurrency = By.name("USD");
-    By productPrices = By.cssSelector(".price .price-new");
+    By currencyButton = By.xpath("//span[@class = 'd-none d-md-inline']");
+    By euroCurrency = By.xpath("//a[@href = 'EUR']");
+    By poundStrCurrency = By.xpath("//a[@href = 'GBP']");
+    By usDollarCurrency = By.xpath("//a[@href = 'USD']");
+    public By P_Prices = By.className("price-new"); // بسبب ال wait في ال currency changing
     public By searchBar = By.name("search");
-    By searchButton = By.cssSelector("button.btn.btn-default.btn-lg");
-    By contactNumber = By.cssSelector("ul.list-inline li a[href*='contact']");
-    By searchPageTitle = By.cssSelector("div#content h1");
-    By contactPageTitle = By.cssSelector("#content h1");
+    By searchButton = By.xpath("//i[@class = 'fa-solid fa-magnifying-glass']");
+    By contactNumber = By.xpath("//span[@class = 'd-none d-lg-inline']");
+    By searchPageTitle_P = By.xpath("//h1[contains(text(), 'MacBook')]");
+    By contactPageTitle = By.xpath("//h1[text()='Contact Us']");
     By myAccount = By.xpath("//span[text()='My Account']");
-    By accountOptions = By.xpath("//ul[@class='dropdown-menu dropdown-menu-right']//a");
-    By addToCartButtons = By.xpath("//button[@data-bs-original-title='Add to Cart']");
-    By wishlistButtons = By.xpath("//button[@data-bs-original-title='Add to Wish List']");
+    By myAccountDropDown = By.xpath("//a[text()='My Account']");
+    By accountOption1 = By.xpath("//a[text()='Register']");
+    By accountOption2 = By.xpath("(//a[text()='Login'])");
+    public By addToCartButtons = By.xpath("//i[@class='fa-solid fa-shopping-cart']");
+    By registerPage = By.xpath("//h1[text()='Register Account']");
+    By loginPage = By.xpath("//h2[text()='Returning Customer']");
+    By wishlistButtonAtTheTop = By.xpath("//span[text() = 'Wish List (0)']");
+    By wishListAtProduct = By.xpath("//button[@title='Add to Wish List']");
     By compareButtons = By.xpath("//button[@data-bs-original-title='Compare this Product']");
-    By successAlert = By.cssSelector(".alert-success");
-    By shoppingCartIcon = By.cssSelector("a[title='Shopping Cart']");
-    By wishlistTopIcon = By.cssSelector("a[title='Wish List']");
+    By successAlert = By.xpath("//div[@class='alert alert-success alert-dismissible']");
+    By shoppingCartIcon = By.xpath("//a[@title='Shopping Cart']");
     By footerLinks = By.cssSelector("footer a");
 
+   // public boolean websiteIsAvailable_HP(){
+     //   driver.get("https://www.opencart.com/index.php?route=cms/demo");
+      //  return driver.findElement(websiteIsAvailable).isDisplayed();
+    //}
 
-    public boolean isHomePageLoaded() {
-        return driver.getTitle().contains("Your Store");
+    public boolean isHomePageLoaded_HP(){
+      return driver.findElement(homePageLocator).isDisplayed();
     }
 
-    public int getNumberOfDisplayedProducts() {
+    public void scrollDownSmall() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollBy(0, 500);");
+    }
+
+    public int getNumberOfDisplayedProducts(){
         return driver.findElements(products).size();
+
     }
 
-    public void clickBannerButton(String buttonName) {
+    public void clickBannerButton(String buttonName){
         List<WebElement> buttons = driver.findElements(bannerButtons);
-        for (WebElement button : buttons) {
-            button.click();
+        for (WebElement button : buttons){
+            if(button.getText().equalsIgnoreCase(buttonName)) {
+                button.click();
+                break;
+            }
         }
     }
 
-    public void clickOnProductsOnHomePage(){
-        List<WebElement> productList = driver.findElements(products);
-        for (WebElement product : productList) {
-            driver.findElement(products).click();
-        }
-    }
+   // public void clickOnProductsOnHomePage(){
+      //  List<WebElement> productList = driver.findElements(products);
+       // for (WebElement product : productList) {
+         //   product.click();
+        //}
+    //}
 
-    public void clickOnCurrencyButton() {
+    public void clickOnCurrencyButton(){
         driver.findElement(currencyButton).click();
     }
 
-    public void clickOnEuroCurrency() {
+    public void clickOnEuroCurrency(){
         driver.findElement(euroCurrency).click();
     }
 
-    public void clickOnPoundStrCurrency() {
+    public void clickOnPoundStrCurrency(){
         driver.findElement(poundStrCurrency).click();
     }
 
-    public void clickOnUsDollarCurrency() {
+    public void clickOnUsDollarCurrency(){
         driver.findElement(usDollarCurrency).click();
     }
 
     public boolean arePricesUpdated(String expectedSymbol) {
-        List<WebElement> productPricesList = driver.findElements(productPrices);
-        if (productPricesList.isEmpty()){
-            return false;
-        }
+        List<WebElement> productPrices = driver.findElements(P_Prices);
+        if (productPrices.isEmpty()) return false;
 
-        for (WebElement price : productPricesList) {
+        for (WebElement price : productPrices) {
             String text = price.getText().trim();
-            if (!text.contains(expectedSymbol)) {
-                System.out.println("Price not updated correctly: " + text);
-                return false;
-            }
+            if (!text.contains(expectedSymbol)) return false;
         }
         return true;
     }
 
-    public boolean correctPriceConversion(String targetCurrency) {
-        List<WebElement> productPricesList = driver.findElements(productPrices);
-        Assert.assertFalse(productPricesList.isEmpty(), "No product prices found!");
 
-        double[] basePricesUSD = {602.00, 123.20, 122.00};
-        double exchangeRate = 1.0;
-        String symbol = "$";
+        public double[] getPrices() {
+            List<WebElement> productPrices = driver.findElements(P_Prices);
+            double[] prices = new double[productPrices.size()];
 
-        switch (targetCurrency.toLowerCase()) {
-            case "euro" -> { exchangeRate = 1.15; symbol = "€"; }
-            case "pound sterling" -> { exchangeRate = 0.85; symbol = "£"; }
-            case "usd" -> { exchangeRate = 1.0; symbol = "$"; }
+            for (int i = 0; i < productPrices.size(); i++) {
+                String text = productPrices.get(i).getText().replaceAll("[^0-9.]", "").trim();
+                prices[i] = Double.parseDouble(text);
+            }
+            return prices;
+
         }
 
-        boolean allPricesCorrect = true;
-
-        for (int i = 0; i < productPricesList.size(); i++) {
-            WebElement priceElement = productPricesList.get(i);
-            String priceText = priceElement.getText().replace(symbol, "").replace(",", "").trim();
-
-            if (priceText.isEmpty()) {
-                allPricesCorrect = false;
-                continue;
-            }
-
-            double actualPrice = Double.parseDouble(priceText);
-            double expectedPrice = basePricesUSD[i] * exchangeRate;
-
-            if (Math.abs(actualPrice - expectedPrice) > 0.01) {
-                allPricesCorrect = false;
-                System.out.println("Price mismatch for product " + (i + 1) +
-                        ": expected " + expectedPrice + ", found " + actualPrice);
-            }
+        public boolean findProducts() {
+        return driver.findElement(products).isDisplayed();
         }
-        return allPricesCorrect;
-    }
 
-
-    public void clickOnProduct(int index) {
+    public void clickOnProduct(int index){
         driver.findElements(products).get(index).click();
     }
 
+    public void userIsRedirectedToProductPage(){
 
-    public void activateSearchBar() {
+    }
+
+    // عايز اسأل فيها اعملها ولا ملهاش لازمة
+    public void activeSearchbar(){
         driver.findElement(searchBar).click();
     }
 
-    public void searchForProduct(String productName) {
-        driver.findElement(searchBar).clear();
+    public void searchForProduct(String productName){
         driver.findElement(searchBar).sendKeys(productName);
         driver.findElement(searchButton).click();
     }
 
     public String getSearchPageTitleText() {
-        return driver.findElement(searchPageTitle).getText();
+        return driver.findElement(searchPageTitle_P).getText();
     }
 
-
-    public void clickContactNumber() {
+    public void clickContactNumber(){
         driver.findElement(contactNumber).click();
     }
 
@@ -157,63 +156,71 @@ public class HomePage {
         return driver.findElement(contactPageTitle).isDisplayed();
     }
 
-
-    public void clickMyAccount() {
+    public void clickMyAccount(){
         driver.findElement(myAccount).click();
     }
-
-    public List<String> getAccountOptions() {
-        return driver.findElements(accountOptions).stream().map(WebElement::getText).toList();
+    // searched I want to revise it to
+    public boolean RegisterOptionIsVisible() {
+        return driver.findElement(accountOption1).isDisplayed();
     }
 
-    public void clickRegister() {
-        driver.findElements(accountOptions).get(0).click();
+
+    public boolean LoginOptionIsVisible() {
+        return driver.findElement(accountOption2).isDisplayed();
     }
 
-    public void clickLogin() {
-        driver.findElements(accountOptions).get(1).click();
+    public void clickRegister(){
+        driver.findElement(accountOption1).click();
     }
 
-    public void clickAddToCartForProduct(int index) {
-        driver.findElements(addToCartButtons).get(index).click();
+    public void clickLogin(){
+        driver.findElement(accountOption2).click();
     }
 
-    public boolean successMessageDisplayed() {
-        return !driver.findElements(successAlert).isEmpty();
+    public boolean userIsOnRegisterPage(){
+        return driver.findElement(registerPage).isDisplayed();
     }
 
-    public boolean cartHasProducts() {
-        return successMessageDisplayed();
+    public boolean userIsOnLogInPage(){
+        return driver.findElement(loginPage).isDisplayed();
     }
 
-    public void clickShoppingCart() {
+    public boolean successMessageDisplayed(){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(successAlert));
+       return driver.findElement(successAlert).isDisplayed();
+    }
+
+    public void clickShoppingCart(){
         driver.findElement(shoppingCartIcon).click();
     }
 
-    public void clickWishlist(int index) {
-        driver.findElements(wishlistButtons).get(index).click();
+    public void clickWishlistAtTheTop(){
+        driver.findElement(wishlistButtonAtTheTop).click();
+    }
+
+    public boolean verifyUserIsLoggedIn(){
+        driver.findElement(myAccount).click();
+        return driver.findElement(myAccountDropDown).isDisplayed();
+    }
+    public void clickWishListButtonAtProduct(){
+        driver.findElement(wishListAtProduct).click();
     }
 
     public boolean wishlistHasProducts() {
         return successMessageDisplayed();
     }
 
-    public void clickTopWishlist() {
-        driver.findElement(wishlistTopIcon).click();
-    }
-
-    public void clickCompare(int index) {
+    public void clickCompare(int index){
         driver.findElements(compareButtons).get(index).click();
     }
 
-    public boolean compareListHasProducts() {
+    public boolean compareListHasProducts(){
         return successMessageDisplayed();
     }
 
-    // Footer
-    public void clickAllFooterLinks() {
-        List<WebElement> links = driver.findElements(footerLinks);
-        for (WebElement link : links) {
+    public void clickAllFooterLinks(){
+        for(WebElement link : driver.findElements(footerLinks)){
             link.click();
             driver.navigate().back();
         }
