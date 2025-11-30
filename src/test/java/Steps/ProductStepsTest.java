@@ -98,7 +98,7 @@ public class ProductStepsTest {
 
     @When("the user clicks the Add to Wishlist button")
     public void clickAddToWishlist() {
-        ensureUserIsLoggedIn();
+        //ensureUserIsLoggedIn();
         product.clickAddToWishlist();
     }
 
@@ -116,7 +116,7 @@ public class ProductStepsTest {
     // Add to Compare
     @When("the user clicks the Add to Compare button")
     public void clickAddToCompare() {
-        ensureUserIsLoggedIn();
+        //ensureUserIsLoggedIn();
         product.clickAddToCompare();
     }
 

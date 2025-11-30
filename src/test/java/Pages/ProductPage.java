@@ -57,15 +57,12 @@ public class ProductPage {
     public void clickAddToWishlist() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
-        // Scroll the button into view
         WebElement button = driver.findElement(wishlistButton);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", button);
 
-        // Wait until the button is visible and clickable
         wait.until(ExpectedConditions.visibilityOf(button));
         wait.until(ExpectedConditions.elementToBeClickable(button));
 
-        // Click the button
         button.click();
     }
 
