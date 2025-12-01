@@ -13,15 +13,13 @@ import java.time.Duration;
 
 public class Checkout_StepDef {
 
-    HomePage homePage = new HomePage(Hooks.driver);
     CheckoutPage checkoutPage;
     LoginPage loginPage = new LoginPage(Hooks.driver);
-    String alertMessage;
 
     @Given("user in checkout page")
     public void goToCheckoutPage(){
         checkoutPage = loginPage.checkout();
-/*        Assert.assertEquals(checkoutPage.checkoutPageActualTitle(),checkoutPage.checkoutPageExpectedTitle(),"Checkout page title does not match");*/
+        Assert.assertEquals(checkoutPage.checkoutPageActualTitle(),checkoutPage.checkoutPageExpectedTitle(),"Checkout page title does not match");
     }
 
 
@@ -101,8 +99,6 @@ public class Checkout_StepDef {
         checkoutPage.enterLastName("");
         checkoutPage.enterAddressOne("");
         checkoutPage.enterCity("");
-//        checkoutPage.selectCountry("");
-//        checkoutPage.selectRegion("");
         checkoutPage.enterPostCode("");
     }
 

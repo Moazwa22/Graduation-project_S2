@@ -21,9 +21,8 @@ public class Hooks {
         driver.get("http://localhost/opencart/");
     }
 
-    /*@After
+    @After
     public void teardown(){
         driver.quit();
-    }*/
-
+    }
 }
