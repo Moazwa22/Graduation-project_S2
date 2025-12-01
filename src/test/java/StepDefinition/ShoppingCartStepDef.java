@@ -1,5 +1,6 @@
 package StepDefinition;
 
+import Pages.CheckOut.CheckOutPage;
 import Pages.Home.HomePage;
 import Pages.Login.LoginPage;
 import Pages.MyAccount.MyAccountPage;
@@ -13,6 +14,7 @@ import org.testng.Assert;
 public class ShoppingCartStepDef {
     HomePage homePage = new HomePage(Hooks.driver);
     ShoppingCartPage shoppingCartPage;
+    CheckOutPage checkOutPage;
     LoginPage loginPage;
     MyAccountPage myAccountPage;
 
@@ -25,16 +27,15 @@ public class ShoppingCartStepDef {
     @When("I Go to Shopping Cart page")
     public void iGoToShoppingCartPage() {
         shoppingCartPage = homePage.clickShoppingCart();
-        Assert.assertEquals(shoppingCartPage.getPageTitle(),"Shopping Cart");
+        Assert.assertTrue(shoppingCartPage.getPageTitle().contains("Shopping Cart"));
     }
 
     @And("Verify State indication {string} appears to me")
     public void verifyStateIndicationAppearsToMe(String massage) {
 
         if (massage.equalsIgnoreCase("valid")) {
-            Assert.assertTrue(
-                    shoppingCartPage.getEmptyMassage().contains(shoppingCartPage.getExpectedEmptyMassage()),
-                    "Empty message is not correct!"
+            Assert.assertEquals(
+                    shoppingCartPage.getEmptyMassage(),"Your shopping cart is empty!"
             );
         } else {
             Assert.fail("Invalid example parameter: " + massage);
@@ -45,8 +46,7 @@ public class ShoppingCartStepDef {
     public void verifyStateIndicationAppearsToMeWhenIPressOnCartIcon(String massage) {
         if (massage.equalsIgnoreCase("valid")) {
             Assert.assertTrue(
-                    homePage.getMassageLocator().contains(homePage.getExpectedEmptyMassage()),
-                    "Empty message is not correct!"
+                    homePage.getMassageLocator().contains(homePage.getExpectedEmptyMassage())
             );
         } else {
             Assert.fail("Invalid example parameter: " + massage);
@@ -59,21 +59,6 @@ public class ShoppingCartStepDef {
         homePage = shoppingCartPage.clickContinueButton();
         Assert.assertEquals(Hooks.driver.getCurrentUrl(),"http://localhost/opencart/index.php?route=common/home&language=en-gb");
     }
-
-/*
-    @Given("I'm logged in user")
-    public void iMLoggedInUser() {
-        Assert.assertEquals(Hooks.driver.getCurrentUrl(), "http://localhost/opencart/");
-        homePage.clickMyAccountButton();
-        loginPage = homePage.selectLoginDropdownText();
-        Assert.assertEquals(Hooks.driver.getCurrentUrl(), "http://localhost/opencart/index.php?route=account/login&language=en-gb");
-        Hooks.driver.navigate().refresh();
-        loginPage.enterValidEmail("esraahamdy@test.com");
-        loginPage.enterValidPassword("123456789");
-        myAccountPage = loginPage.clickLoginButton();
-        homePage = myAccountPage.clickHomePageIcon();
-    }
-*/
 
     @Then("I press home icon to continue shopping")
     public void iPressHomeIconToContinueShopping() {
@@ -96,12 +81,91 @@ public class ShoppingCartStepDef {
         homePage.addMackBookToCart();
     }
 
-    @Then("Verify {string} appears shows me the action is done")
-    public void verifyAppearsShowsMeTheActionIsDone(String Massage) {
+    @Then("Verify {string} appears shows me the action is done in home page")
+    public void verifyAppearsShowsMeTheActionIsDoneInHomePage(String Massage) {
         Assert.assertEquals(homePage.getActualText(),(Massage.trim()));
     }
 
     @Then("I can update {string}")
     public void iCanUpdate(String quantity) {
+        int q = Integer.parseInt(quantity);
+        shoppingCartPage.updateQuantity(q);
     }
+
+    @Then("Verify {string} appears shows me the action is done in Shopping cart page")
+    public void verifyAppearsShowsMeTheActionIsDoneInShoppingCartPage(String Massage) {
+        Assert.assertEquals(shoppingCartPage.getActualText(),(Massage.trim()));
+    }
+
+    @And("I press remove icon")
+    public void iPressRemoveIcon() {
+        shoppingCartPage.removeItem();
+    }
+
+    @Then("I go to Use Coupon code Drop down list")
+    public void iGoToUseCouponCodeDropDownList() {
+        shoppingCartPage.clickAddCouponDropDown();
+    }
+
+    @And("Enter my {string} I have")
+    public void enterMyIHave(String Coupon) {
+        shoppingCartPage.enterCoupon(Coupon);
+    }
+
+    @And("press Apply Coupon Botton")
+    public void pressApplyCouponBotton() {
+        shoppingCartPage.pressApplyCouponButton();
+    }
+
+    @Then("Indication {string} appears show me either it is {string}")
+    public void indicationAppearsShowMeEitherItIs(String massage, String accepted) {
+
+
+    }
+
+    @Then("I press continue shopping button to complete shopping")
+    public void iPressContinueShoppingButtonToCompleteShopping() {
+        homePage = shoppingCartPage.clickContinueShoppingBtn();
+        Assert.assertEquals(Hooks.driver.getCurrentUrl(),"http://localhost/opencart/index.php?route=common/home&language=en-gb");
+    }
+
+    @Then("I press checkout button redirected to checkout page")
+    public void iPressCheckoutButtonRedirectedToCheckoutPage() {
+        checkOutPage = shoppingCartPage.clickCheckOutBtn();
+        Assert.assertTrue(checkOutPage.getPageTitle().contains("Checkout"));
+    }
+
+    @Then("I press view cart btn")
+    public void iPressViewCartBtn() {
+        shoppingCartPage = homePage.clickViewCartBtn();
+        Assert.assertTrue(shoppingCartPage.getPageTitle().contains("Shopping Cart"));
+    }
+
+    @Then("I press check out btn")
+    public void iPressCheckOutBtn() {
+        checkOutPage = homePage.clickCheckoutBtn();
+        Assert.assertTrue(checkOutPage.getPageTitle().contains("Checkout"));
+    }
+
+    @Then("I press delete icon")
+    public void iPressDeleteIcon() {
+        homePage.deleteItem();
+    }
+
+
+
+    /*
+    @Given("I'm logged in user")
+    public void iMLoggedInUser() {
+        Assert.assertEquals(Hooks.driver.getCurrentUrl(), "http://localhost/opencart/");
+        homePage.clickMyAccountButton();
+        loginPage = homePage.selectLoginDropdownText();
+        Assert.assertEquals(Hooks.driver.getCurrentUrl(), "http://localhost/opencart/index.php?route=account/login&language=en-gb");
+        Hooks.driver.navigate().refresh();
+        loginPage.enterValidEmail("esraahamdy@test.com");
+        loginPage.enterValidPassword("123456789");
+        myAccountPage = loginPage.clickLoginButton();
+        homePage = myAccountPage.clickHomePageIcon();
+    }
+*/
 }

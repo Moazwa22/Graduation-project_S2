@@ -5,15 +5,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.List;
 
 public class HomePage extends Utilities {
-
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
     List<WebElement> addToCartLocator = driver.findElements(By.xpath("//button[@type = 'submit']/i"));
 
@@ -21,12 +16,6 @@ public class HomePage extends Utilities {
     public HomePage(WebDriver driver) {
         super(driver);
     }
-
-    public boolean homePageChecker (){
-        List<WebElement> breadcrumb = driver.findElements(By.xpath("//ul[@class='breadcrumb']"));
-        return breadcrumb.isEmpty();
-    }
-
 
     public void addMackBookToCart(){
         WebElement element = addToCartLocator.get(1);

@@ -1,13 +1,15 @@
 package Pages.SharedComponents;
 
+import Pages.CheckOut.CheckOutPage;
 import Pages.Home.HomePage;
 import Pages.Login.LoginPage;
 import Pages.ShoppingCart.ShoppingCartPage;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import StepDefinition.Hooks;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -15,7 +17,6 @@ import java.util.List;
 
 public abstract class Utilities {
     protected WebDriver driver;
-
     protected WebDriverWait wait;
 
     public Utilities(WebDriver driver) {
@@ -64,7 +65,7 @@ public abstract class Utilities {
 
 
 
-   /* *//* **************
+    /* *//* **************
      * Nav-menue
      *************** *//*
     List<WebElement> navItems = driver.findElements(By.cssSelector("ul.navbar-nav > li.nav-item"));
@@ -76,16 +77,30 @@ public abstract class Utilities {
     /* **************
      * Carticon
      *************** */
-    By carticonLocator = By.xpath("//button[@class = 'btn btn-lg btn-dark d-block dropdown-toggle']");
+    By carticonLocator = By.xpath("//button[contains(@class,'dropdown-toggle')]");
     By massageLocator = By.xpath("//li[@class = 'text-center p-4']");
     String expectedEmptyMassage = "Your shopping cart is empty!";
+    By viewCartLocator = By.xpath("//a[contains(.,'View Cart')]");
+    By checkOutLocator = By.xpath("//a[contains(.,' Checkout')]");
+    List<WebElement> deleteiconLocator = driver.findElements(By.xpath("//button[@type='submit']/i"));
+
 
     public void clickCarticon() {
-        driver.findElement(carticonLocator).click();
+        int attempts = 0;
+        while (attempts < 3) {
+            try {
+                WebElement cartBtn = driver.findElement(carticonLocator);
+                cartBtn.click();
+                break;
+            } catch (StaleElementReferenceException e) {
+                attempts++;
+            }
+        }
     }
 
+
     public String getMassageLocator() {
-        return driver.findElement(massageLocator).getText();
+        return  wait.until(ExpectedConditions.visibilityOfElementLocated(massageLocator)).getText();
     }
 
     public String getExpectedEmptyMassage() {
@@ -93,10 +108,46 @@ public abstract class Utilities {
     }
 
 
-     /****************************
+    public ShoppingCartPage clickViewCartBtn() {
+        clickCarticon();
+
+        By dropdown = By.cssSelector("ul.dropdown-menu.show");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(dropdown));
+
+        WebElement viewCart = driver.findElement(viewCartLocator);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", viewCart);
+
+        return new ShoppingCartPage(driver);
+    }
+
+    public CheckOutPage clickCheckoutBtn() {
+        clickCarticon();
+
+        By dropdown = By.cssSelector("ul.dropdown-menu.show");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(dropdown));
+
+        WebElement checkout = driver.findElement(checkOutLocator);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", checkout);
+
+        return new CheckOutPage(driver);
+    }
+
+    public void deleteItem(){
+        clickCarticon();
+        WebElement element = deleteiconLocator.get(1);
+
+        // Click using JS to avoid interception
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+    }
+
+
+
+
+
+    /****************************
      * Adding item Success massage
      *************************** */
-     By successMessage = By.id("alert");
+    static By successMessage = By.id("alert");
 
 
     public String getActualText(){
