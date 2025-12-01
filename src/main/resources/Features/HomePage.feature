@@ -17,7 +17,7 @@ Feature: Home Page Functionality - OpenCart
 
   @TC_HomePage_3
   Scenario Outline: Verify that user can interact with the main banner
-    Given User is on Homepage
+    Given User is on Homepage before clicking on banner buttons
     When User clicks on banner button "<Banner>"
     Then User should be redirected to the selected banner section page
     Examples:
@@ -33,7 +33,7 @@ Feature: Home Page Functionality - OpenCart
 
    @TC_Homepage_4
    Scenario Outline: Verify currency conversion from currency button
-     Given User is on the Homepage
+     Given User is on Homepage
      When User selects currency "<Currency>"
      Then Prices across the site are updated according to the selected currency "<Currency>"
      Examples:
@@ -44,7 +44,7 @@ Feature: Home Page Functionality - OpenCart
 
   @TC_HomePage_5
   Scenario Outline: Verify correct price calculation when currency is changed
-    Given User is on homepage
+    Given User is on the Homepage
     When User changes the currency to "<Currency>"
     Then Product prices should be correctly recalculated according to the selected currency "<Currency>"
     Examples:

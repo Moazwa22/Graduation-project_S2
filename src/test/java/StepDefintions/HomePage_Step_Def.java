@@ -62,11 +62,11 @@ public class HomePage_Step_Def {
     }
 
     //TC_HomePage_3
-    // @Given("User is on Homepage")
-    //  public void userIsOnHomePageCR() {
-    //      HomePage H3 = new HomePage(Hooks.driver);
-    //   Assert.assertTrue(H3.isHomePageLoaded_HP());
-    //  }
+     @Given("User is on Homepage before clicking on banner buttons")
+    public void userIsOnHomePage_Banner() {
+        HomePage H3 = new HomePage(Hooks.driver);
+        Assert.assertTrue(H3.isHomePageLoaded_HP());
+     }
 
     @When("User clicks on banner button {string}")
     public void userClicksOnBannerItems(String button) {

@@ -20,9 +20,21 @@ public class HomePage {
         this.driver = driver;
     }
     By websiteIsAvailable = By.xpath("//a[@href = 'https://demo.opencart.com/']");
-    By homePageLocator = By.id("carousel-banner-0");
+    By homePageLocator = By.xpath("//h3[text()='Featured']");
     By products = By.cssSelector(".product-thumb");
     By bannerButtons = By.cssSelector("#menu .nav > li > a");
+    By showAllDesktops_B = By.xpath("//a[text()='Show All Desktops']");
+    By desktopPage = By.xpath("//h2[text()='Desktops']");
+    By laptopsAndNotebooksPage = By.xpath("//h2[text()='Laptops & Notebooks']");
+    By componentsPage = By.xpath("//h2[text()='Components']");
+    By mp3PlayersPage = By.xpath("//h2[text()='MP3 Players']");
+    By tabletsPage = By.xpath("//h2[text()='Tablets']");
+    By softwarePage = By.xpath("//h2[text()='Software']");
+    By phonesAndPDAs = By.xpath("//h2[text()='Phones & PDAs']");
+    By camerasPage = By.xpath("//h2[text()='Cameras']");
+    By showAllLaptops_B = By.xpath("//a[text()='Show All Laptops & Notebooks']");
+    By showAllComponents = By.xpath("//a[text()='Show All Components']");
+    By showAllMP3Players = By.xpath("//a[text()='Show All MP3 Players']");
     By currencyButton = By.xpath("//span[@class = 'd-none d-md-inline']");
     By euroCurrency = By.xpath("//a[@href = 'EUR']");
     By poundStrCurrency = By.xpath("//a[@href = 'GBP']");
@@ -54,12 +66,22 @@ public class HomePage {
     By footerLinks = By.cssSelector("footer a");
 
    // public boolean websiteIsAvailable_HP(){
-     //   driver.get("https://www.opencart.com/index.php?route=cms/demo");
+     //
       //  return driver.findElement(websiteIsAvailable).isDisplayed();
     //}
 
     public boolean isHomePageLoaded_HP(){
-      return driver.findElement(homePageLocator).isDisplayed();
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebElement featured = wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocator));
+
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("arguments[0].scrollIntoView(true);", featured);
+
+            return featured.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void scrollDownSmall() {
@@ -73,10 +95,36 @@ public class HomePage {
     }
 
     public void clickBannerButton(String buttonName){
+
         List<WebElement> buttons = driver.findElements(bannerButtons);
-        for (WebElement button : buttons){
-            if(button.getText().equalsIgnoreCase(buttonName)) {
+
+        for(WebElement button : buttons){
+            if (button.getText().equalsIgnoreCase(buttonName)){
                 button.click();
+                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(4));
+
+                switch (buttonName.toLowerCase()){
+
+                    case "desktops":
+                        wait.until(ExpectedConditions.visibilityOfElementLocated(showAllDesktops_B)).click();
+                        break;
+
+                    case "laptops & notebooks":
+                        wait.until(ExpectedConditions.visibilityOfElementLocated(showAllLaptops_B)).click();
+                        break;
+
+                    case "components":
+                        wait.until(ExpectedConditions.visibilityOfElementLocated(showAllComponents)).click();
+                        break;
+
+                    case "mp3 players":
+                        wait.until(ExpectedConditions.visibilityOfElementLocated(showAllMP3Players)).click();
+                        break;
+
+                    default:
+                        break;
+                }
+
                 break;
             }
         }
