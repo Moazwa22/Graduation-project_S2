@@ -6,9 +6,13 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 
 public class Login_StepDef {
 
+    private static final Logger log = LoggerFactory.getLogger(Login_StepDef.class);
     HomePage homePage = new HomePage(Hooks.driver);
     LoginPage loginPage;
 
@@ -30,10 +34,16 @@ public class Login_StepDef {
     @And("press Login")
     public void pressLogin() {
         loginPage.pressLogin();
+        Assert.assertEquals(loginPage.actualTitleOfAccountPage(),loginPage.getExpectedTitleOfMyAccountPage());
     }
 
     @And("user adds item to cart")
     public void userAddsItemToCart() {
         loginPage.addItem();
+    }
+
+    @Then("return to home page")
+    public void returnToHomePage() {
+        loginPage.returnToHomaPage();
     }
 }
