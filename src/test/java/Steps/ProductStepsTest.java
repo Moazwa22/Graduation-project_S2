@@ -104,7 +104,7 @@ public class ProductStepsTest {
 
     @Then("the product should be added to the wishlist successfully")
     public void verifyWishlistSuccess() {
-        Assert.assertTrue(product.isWishlistSuccessMessageDisplayed(), "Product was NOT added to wishlist!");
+        Assert.assertTrue(product.isWishlistSuccessMessageDisplayed(), "You must login or create an account to save HTC Touch HD to your wish list!" );
     }
 
     @Then("a success message should appear confirming the add to wishlist action")

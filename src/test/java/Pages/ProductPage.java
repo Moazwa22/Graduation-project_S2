@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 public class ProductPage {
 
@@ -17,7 +18,7 @@ public class ProductPage {
     By productPrice = By.cssSelector(".list-unstyled h2");
     By addToCartBtn = By.id("button-cart");
     By successMessage = By.cssSelector(".alert-success");
-    By wishlistButton = By.cssSelector("button[data-bs-original-title='Add to Wish List']");
+    By wishlistButton = By.cssSelector("button[title='Add to Wish List']");
     By compareButton = By.cssSelector("button[data-bs-original-title='Compare this Product']");
 
     public ProductPage(WebDriver driver){
@@ -78,12 +79,13 @@ public class ProductPage {
     public void clickAddToCompare() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
-        WebElement button = driver.findElement(compareButton);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", button);
+        //WebElement button = driver.findElement("button[data-bs-original-title='Compare this Product']");
+        List<WebElement> buttons = driver.findElements(By.cssSelector("button[data-bs-original-title='Compare this Product']"));
+        WebElement first = buttons.get(0);
 
-        wait.until(ExpectedConditions.visibilityOf(button));
-        wait.until(ExpectedConditions.elementToBeClickable(button));
-        button.click();
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", first);
+
+        wait.until(ExpectedConditions.elementToBeClickable(first)).click();
     }
 
     public boolean isCompareSuccessMessageDisplayed() {

@@ -86,9 +86,9 @@ public class CatalogPage {
 
 
     By products = By.cssSelector(".product-thumb");
-    By productName = By.cssSelector(".caption h4 a");
-    By productPrice = By.cssSelector(".caption .price");
-    //By discountedPrice = By.cssSelector(".price-new");
+    By productName = By.cssSelector(".product-thumb h4 a");
+    By productPrice = By.cssSelector(".product-thumb .price");
+    //By discountedPrice = By.cssSelector(".product-thumb .price-new");
     By addToCartButton = By.cssSelector("button[data-bs-original-title='Add to Cart']");
     By addToWishlistButton = By.cssSelector("button[data-bs-original-title='Add to Wish List']");
     By addToCompareButton = By.cssSelector("button[data-bs-original-title='Compare this Product']");
