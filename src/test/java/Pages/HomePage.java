@@ -6,12 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
-
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class HomePage {
     WebDriver driver;
@@ -19,19 +16,10 @@ public class HomePage {
     public HomePage (WebDriver driver) {
         this.driver = driver;
     }
-    By websiteIsAvailable = By.xpath("//a[@href = 'https://demo.opencart.com/']");
     By homePageLocator = By.xpath("//h3[text()='Featured']");
     By products = By.cssSelector(".product-thumb");
     By bannerButtons = By.cssSelector("#menu .nav > li > a");
     By showAllDesktops_B = By.xpath("//a[text()='Show All Desktops']");
-    By desktopPage = By.xpath("//h2[text()='Desktops']");
-    By laptopsAndNotebooksPage = By.xpath("//h2[text()='Laptops & Notebooks']");
-    By componentsPage = By.xpath("//h2[text()='Components']");
-    By mp3PlayersPage = By.xpath("//h2[text()='MP3 Players']");
-    By tabletsPage = By.xpath("//h2[text()='Tablets']");
-    By softwarePage = By.xpath("//h2[text()='Software']");
-    By phonesAndPDAs = By.xpath("//h2[text()='Phones & PDAs']");
-    By camerasPage = By.xpath("//h2[text()='Cameras']");
     By showAllLaptops_B = By.xpath("//a[text()='Show All Laptops & Notebooks']");
     By showAllComponents = By.xpath("//a[text()='Show All Components']");
     By showAllMP3Players = By.xpath("//a[text()='Show All MP3 Players']");
@@ -46,14 +34,12 @@ public class HomePage {
     By searchPageTitle_P = By.xpath("//h1[contains(text(), 'MacBook')]");
     By contactPageTitle = By.xpath("//h1[text()='Contact Us']");
     By myAccount = By.xpath("//span[text()='My Account']");
-    By myAccountDropDown = By.xpath("//a[text()='My Account']");
     By accountOption1 = By.xpath("//a[text()='Register']");
     By accountOption2 = By.xpath("(//a[text()='Login'])");
     By E_mailFieldLogin = By.id("input-email");
     By passwordLogin = By.id("input-password");
     By logInButton = By.xpath("//button[@class='btn btn-primary']");
     By myAccountLogin = By.xpath("//h1[text() = 'My Account']");
-    By backToHomePage = By.xpath("//img[text() = 'Your Store']");
     public By addToCartButtons = By.xpath("//i[@class='fa-solid fa-shopping-cart']");
     By registerPage = By.xpath("//h1[text()='Register Account']");
     By loginPage = By.xpath("//h2[text()='Returning Customer']");
@@ -64,11 +50,6 @@ public class HomePage {
     public By successAlert = By.xpath("//div[@class='alert alert-success alert-dismissible']");
     By shoppingCartIcon = By.xpath("//a[@title='Shopping Cart']");
     By footerLinks = By.cssSelector("footer a");
-
-   // public boolean websiteIsAvailable_HP(){
-     //
-      //  return driver.findElement(websiteIsAvailable).isDisplayed();
-    //}
 
     public boolean isHomePageLoaded_HP(){
         try {
@@ -130,13 +111,6 @@ public class HomePage {
         }
     }
 
-   // public void clickOnProductsOnHomePage(){
-      //  List<WebElement> productList = driver.findElements(products);
-       // for (WebElement product : productList) {
-         //   product.click();
-        //}
-    //}
-
     public void clickOnCurrencyButton(){
         driver.findElement(currencyButton).click();
     }
@@ -153,43 +127,6 @@ public class HomePage {
         driver.findElement(usDollarCurrency).click();
     }
 
-    public boolean isCurrencyUpdated(String currency) {
-        List<WebElement> prices = driver.findElements(By.cssSelector(".price"));
-        if (prices.isEmpty()) {
-            return false;
-        }
-
-        String priceText = prices.get(0).getText();
-
-        currency = currency.toLowerCase();
-
-        if (currency.contains("euro")) {
-            return priceText.contains("€");
-        }
-
-        if (currency.contains("pound")) {
-            return priceText.contains("£");
-        }
-
-        if (currency.contains("dollar") || currency.contains("usd")) {
-            return priceText.contains("$");
-        }
-
-        return false;
-    }
-
-    public boolean waitForCurrencyToUpdate(String symbol) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-
-        try {
-            return wait.until(driver ->
-                    driver.findElement(By.cssSelector(".price")).getText().contains(symbol)
-            );
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
     public boolean arePricesUpdated(String expectedSymbol) {
         List<WebElement> productPrices = driver.findElements(P_Prices);
         if (productPrices.isEmpty()) return false;
@@ -202,21 +139,21 @@ public class HomePage {
     }
 
 
-        public double[] getPrices() {
-            List<WebElement> productPrices = driver.findElements(P_Prices);
-            double[] prices = new double[productPrices.size()];
+    public double[] getPrices() {
+        List<WebElement> productPrices = driver.findElements(P_Prices);
+        double[] prices = new double[productPrices.size()];
 
-            for (int i = 0; i < productPrices.size(); i++) {
-                String text = productPrices.get(i).getText().replaceAll("[^0-9.]", "").trim();
-                prices[i] = Double.parseDouble(text);
-            }
-            return prices;
-
+        for (int i = 0; i < productPrices.size(); i++) {
+            String text = productPrices.get(i).getText().replaceAll("[^0-9.]", "").trim();
+            prices[i] = Double.parseDouble(text);
         }
+        return prices;
 
-        public boolean findProducts() {
+    }
+
+    public boolean findProducts() {
         return driver.findElement(products).isDisplayed();
-        }
+    }
 
     public void clickOnProduct(int index){
         driver.findElements(products).get(index).click();
@@ -274,7 +211,7 @@ public class HomePage {
     public boolean successMessageDisplayed(){
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(successAlert));
-       return driver.findElement(successAlert).isDisplayed();
+        return driver.findElement(successAlert).isDisplayed();
     }
 
     public void clickShoppingCart(){
@@ -310,9 +247,9 @@ public class HomePage {
     }
 
     public void clickWishListButtonAtProduct(){
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            WebElement wishListButton = wait.until(ExpectedConditions.elementToBeClickable(wishListAtProduct));
-            wishListButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement wishListButton = wait.until(ExpectedConditions.elementToBeClickable(wishListAtProduct));
+        wishListButton.click();
     }
 
     public boolean wishlistHasProducts() {

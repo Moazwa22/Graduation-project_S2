@@ -31,20 +31,20 @@ Feature: Home Page Functionality - OpenCart
       | Cameras    |
       | MP3 Players |
 
-   @TC_Homepage_4
-   Scenario Outline: Verify currency conversion from currency button
-     Given User is on Homepage
-     When User selects currency "<Currency>"
-     Then Prices across the site are updated according to the selected currency "<Currency>"
-     Examples:
-       | Currency       |
-       | € Euro         |
-       | £ Pound Sterling |
-       | $ US Dollar      |
+  @TC_Homepage_4
+  Scenario Outline: Verify currency conversion from currency button
+    Given User is on Homepage
+    When User selects currency "<Currency>"
+    Then Prices across the site are updated according to the selected currency "<Currency>"
+    Examples:
+      | Currency       |
+      | € Euro         |
+      | £ Pound Sterling |
+      | $ US Dollar      |
 
   @TC_HomePage_5
   Scenario Outline: Verify correct price calculation when currency is changed
-    Given User is on the Homepage
+    Given User is on the Homepage before changing currency
     When User changes the currency to "<Currency>"
     Then Product prices should be correctly recalculated according to the selected currency "<Currency>"
     Examples:
@@ -101,7 +101,7 @@ Feature: Home Page Functionality - OpenCart
     Then User should be redirected to Login page
 
   @TC_HomePage_14
-    Scenario: Verify product added to cart
+  Scenario: Verify product added to cart
     Given User is on the Homepage before clicking on add to cart
     When User clicks Add to Cart icon for first product
     Then Success message is displayed after click add to cart
@@ -131,13 +131,13 @@ Feature: Home Page Functionality - OpenCart
 
   @TC_HomePage_19
   Scenario: Verify product added to comparison list
-   Given User is on the Homepage before comparing
+    Given User is on the Homepage before comparing
     When User clicks on Compare icon for first product
     Then Product should be added to comparison page
 
   @TC_HomePage_20
   Scenario: Verify footer links are clickable
-   Given User is on the Homepage before clicking on footer links
+    Given User is on the Homepage before clicking on footer links
     When User clicks on each footer link
     Then User should be redirected to the correct page
 

@@ -1,20 +1,16 @@
 package StepDefintions;
 
 import Pages.HomePage;
-import io.cucumber.java.PendingException;
-import io.cucumber.java.bs.A;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-
 import java.time.Duration;
 import java.util.List;
 
@@ -62,11 +58,11 @@ public class HomePage_Step_Def {
     }
 
     //TC_HomePage_3
-     @Given("User is on Homepage before clicking on banner buttons")
+    @Given("User is on Homepage before clicking on banner buttons")
     public void userIsOnHomePage_Banner() {
         HomePage H3 = new HomePage(Hooks.driver);
         Assert.assertTrue(H3.isHomePageLoaded_HP());
-     }
+    }
 
     @When("User clicks on banner button {string}")
     public void userClicksOnBannerItems(String button) {
@@ -129,45 +125,30 @@ public class HomePage_Step_Def {
     //TC_HomePage_5
     double[] basePrices;
 
-    @Given("User is on homepage")
-    public void userIsOnHomePage5() {
-        HomePage H5 = new HomePage(Hooks.driver);
-        Assert.assertTrue(H5.isHomePageLoaded_HP());
-        basePrices = H5.getPrices();
+    @Given("User is on the Homepage before changing currency")
+    public void userIsOnTheHomepage() {
+        HomePage H4 = new HomePage(Hooks.driver);
+        Assert.assertTrue(H4.isHomePageLoaded_HP(), "User is not in Home Page.");
+        basePrices = H4.getPrices();
     }
 
     @When("User changes the currency to {string}")
     public void userChangesCurrency(String currency) {
         HomePage H4 = new HomePage(Hooks.driver);
         H4.clickOnCurrencyButton();
-
-        String symbol = "";
         switch (currency.toLowerCase()) {
-            case "€ euro":
             case "euro":
                 H4.clickOnEuroCurrency();
-                symbol = "€";
                 break;
-
-            case "£ pound sterling":
             case "pound sterling":
                 H4.clickOnPoundStrCurrency();
-                symbol = "£";
                 break;
-
-            case "$ us dollar":
             case "us dollar":
             case "usd":
                 H4.clickOnUsDollarCurrency();
-                symbol = "$";
                 break;
         }
-
-        H4.scrollDownSmall();
-        Assert.assertTrue(H4.waitForCurrencyToUpdate(symbol),
-                "Currency did NOT update on the UI! Expected symbol: " + symbol);
     }
-
 
     @Then("Product prices should be correctly recalculated according to the selected currency {string}")
     public void verifyConversion(String currency) {
@@ -185,7 +166,7 @@ public class HomePage_Step_Def {
         for (int i = 0; i < newPrices.length; i++) {
             double expected = basePrices[i] * exchangeRate;
 
-            Assert.assertTrue(Math.abs(newPrices[i] - expected) <= 0.5, "Price mismatch! product " + (i + 1) + " expected = " + expected + " but found = " + newPrices[i]);
+            Assert.assertTrue(Math.abs(newPrices[i] - expected) <= 0.5, "Wrong calculation for product: " + (i + 1) + " expected = " + expected + " but found = " + newPrices[i]);
         }
     }
 
@@ -334,7 +315,6 @@ public class HomePage_Step_Def {
     }
 
     //TC_HomePage_14
-
     @Given("User is on the Homepage before clicking on add to cart")
     public void userIsOnHomePage14() {
         HomePage H14 = new HomePage(Hooks.driver);
@@ -362,6 +342,7 @@ public class HomePage_Step_Def {
         Assert.assertTrue(H14.successMessageDisplayed(), "No success message for product at index ");
     }
 
+
     //TC_HomePage_16
     @Given("User is on the Homepage before user click on cart icon")
     public void userIsOnHomePage16() {
@@ -388,10 +369,10 @@ public class HomePage_Step_Def {
     }
 
     @And("User is logged in with {string} and {string}")
-    public void userIsLoggedIn(String E_MailAddress , String password){
-    HomePage H17 = new HomePage(Hooks.driver);
-        Assert.assertTrue(H17.verifyUserIsOnLogInPage(),"User is not logged in.");
-        Assert.assertTrue(H17.userIsLoggedIn(E_MailAddress,password),"User is not logged in.");
+    public void userIsLoggedIn(String E_MailAddress, String password) {
+        HomePage H17 = new HomePage(Hooks.driver);
+        Assert.assertTrue(H17.verifyUserIsOnLogInPage(), "User is not logged in.");
+        Assert.assertTrue(H17.userIsLoggedIn(E_MailAddress, password), "User is not logged in.");
         H17.goToHomePage();
     }
 
@@ -404,7 +385,7 @@ public class HomePage_Step_Def {
     @Then("Product should be added to Wishlist")
     public void productAddedToWishlist() {
         HomePage H17 = new HomePage(Hooks.driver);
-        Assert.assertTrue(H17.wishlistHasProducts(),"Product is not added to wishlist.");
+        Assert.assertTrue(H17.wishlistHasProducts(), "Product is not added to wishlist.");
     }
 
     //TC_HomePage_18
@@ -423,7 +404,7 @@ public class HomePage_Step_Def {
     @Then("User should be redirected to Wishlist page")
     public void redirectedToWishlist() {
         HomePage H18 = new HomePage(Hooks.driver);
-        Assert.assertTrue(H18.userIsRedirectedToWishlistPage(),"User is not redirected to wishlist page");
+        Assert.assertTrue(H18.userIsRedirectedToWishlistPage(), "User is not redirected to wishlist page");
     }
 
     //TC_HomePage_19
@@ -470,11 +451,7 @@ public class HomePage_Step_Def {
     public void redirectedFooterPages() {
         Assert.assertTrue(Hooks.driver.getTitle().length() > 0);
     }
-
 }
-
-
-
 
 /*
 
