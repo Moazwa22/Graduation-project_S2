@@ -2,8 +2,6 @@ package StepDefinition;
 
 import Pages.CheckOut.CheckOutPage;
 import Pages.Home.HomePage;
-import Pages.Login.LoginPage;
-import Pages.MyAccount.MyAccountPage;
 import Pages.ShoppingCart.ShoppingCartPage;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -15,8 +13,7 @@ public class ShoppingCartStepDef {
     HomePage homePage = new HomePage(Hooks.driver);
     ShoppingCartPage shoppingCartPage;
     CheckOutPage checkOutPage;
-    LoginPage loginPage;
-    MyAccountPage myAccountPage;
+    String expectedName, expectedUprice, expectedTaxprice, expectedTPProduct;
 
 
     @Given("I'm guest user, I am in home Page and not added any items to my cart")
@@ -60,11 +57,6 @@ public class ShoppingCartStepDef {
         Assert.assertEquals(Hooks.driver.getCurrentUrl(),"http://localhost/opencart/index.php?route=common/home&language=en-gb");
     }
 
-    @Then("I press home icon to continue shopping")
-    public void iPressHomeIconToContinueShopping() {
-        homePage = shoppingCartPage.clickHomePageIcon();
-        Assert.assertEquals(Hooks.driver.getCurrentUrl(),"http://localhost/opencart/index.php?route=common/home&language=en-gb");
-    }
 
     @And("I'm at home page")
     public void iMAtHomePage() {
@@ -88,8 +80,7 @@ public class ShoppingCartStepDef {
 
     @Then("I can update {string}")
     public void iCanUpdate(String quantity) {
-        int q = Integer.parseInt(quantity);
-        shoppingCartPage.updateQuantity(q);
+        shoppingCartPage.updateQuantity(quantity);
     }
 
     @Then("Verify {string} appears shows me the action is done in Shopping cart page")
@@ -131,7 +122,7 @@ public class ShoppingCartStepDef {
 
     @Then("I press checkout button redirected to checkout page")
     public void iPressCheckoutButtonRedirectedToCheckoutPage() {
-        checkOutPage = shoppingCartPage.clickCheckOutBtn();
+         checkOutPage = shoppingCartPage.clickCheckOutBtn();
         Assert.assertTrue(checkOutPage.getPageTitle().contains("Checkout"));
     }
 
@@ -148,24 +139,40 @@ public class ShoppingCartStepDef {
     }
 
     @Then("I press delete icon")
-    public void iPressDeleteIcon() {
+    public void iPressDeleteIcon() throws InterruptedException {
+        Thread.sleep(9000);
         homePage.deleteItem();
     }
 
 
-
-    /*
-    @Given("I'm logged in user")
-    public void iMLoggedInUser() {
-        Assert.assertEquals(Hooks.driver.getCurrentUrl(), "http://localhost/opencart/");
-        homePage.clickMyAccountButton();
-        loginPage = homePage.selectLoginDropdownText();
-        Assert.assertEquals(Hooks.driver.getCurrentUrl(), "http://localhost/opencart/index.php?route=account/login&language=en-gb");
-        Hooks.driver.navigate().refresh();
-        loginPage.enterValidEmail("esraahamdy@test.com");
-        loginPage.enterValidPassword("123456789");
-        myAccountPage = loginPage.clickLoginButton();
-        homePage = myAccountPage.clickHomePageIcon();
+    @And("I Noticed Product details")
+    public void iNoticedProductDetails() {
+        expectedName     = homePage.getPName();
+        expectedUprice   = homePage.getPriceN();
+        expectedTaxprice = homePage.getPriceT();
+        expectedTPProduct = expectedUprice;
     }
-*/
+
+    @Then("The product name and price displayed in the cart should match the product added")
+    public void theProductNameAndPriceDisplayedInTheCartShouldMatchTheProductAdded() {
+        Assert.assertEquals(shoppingCartPage.getPName(),expectedName);
+        Assert.assertEquals(shoppingCartPage.getUPrice(),expectedUprice);
+        Assert.assertEquals(shoppingCartPage.getTPProd(),expectedTPProduct);
+        Assert.assertTrue(expectedTaxprice.contains(shoppingCartPage.getSubTotal()));
+    }
+
+    @Then("The product name and price displayed in the cart icon should match the product added")
+    public void theProductNameAndPriceDisplayedInTheCartIconShouldMatchTheProductAdded(){
+        homePage.clickCarticon();
+        Assert.assertEquals(homePage.getPNameCI(),expectedName);
+        Assert.assertEquals(homePage.getTPProdCI(),expectedUprice);
+        Assert.assertTrue(expectedTaxprice.contains(homePage.getSubTotalCI()));
+    }
+
+    @And("Calculated {string} should it be")
+    public void calculatedShouldItBe(String quantity) {
+        expectedTPProduct = homePage.getPriceN(quantity);
+        expectedTaxprice = homePage.getPriceT(quantity);
+    }
+
 }
