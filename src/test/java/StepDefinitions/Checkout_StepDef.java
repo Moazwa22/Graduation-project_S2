@@ -103,13 +103,14 @@ public class Checkout_StepDef {
     }
 
     @Then("validation error messages should be shown for all required fields")
-    public void validationErrorMessagesShouldBeShownForAllRequiredFields() {
-        Assert.assertEquals(checkoutPage.getActualFirstNameErrorMessage(),checkoutPage.getExpectedFirstNameErrorMessage(),"Error message is correctly displayed");
-        Assert.assertEquals(checkoutPage.getActualLastNameErrorMessage(), checkoutPage.getExpectedLastNameErrorMessage(), "Error message is correctly displayed for Last Name");
-        Assert.assertEquals(checkoutPage.getActualAddressOneErrorMessage(), checkoutPage.getExpectedAddressOneErrorMessage(), "Error message is correctly displayed for Address Line 1");
-        Assert.assertEquals(checkoutPage.getActualCountryErrorMessage(), checkoutPage.getExpectedCountryErrorMessage(), "Error message is correctly displayed for Country");
-        Assert.assertEquals(checkoutPage.getActualCityErrorMessage(), checkoutPage.getExpectedCityErrorMessage(), "Error message is correctly displayed for City");
-        Assert.assertEquals(checkoutPage.getActualRegionErrorMessage(), checkoutPage.getExpectedRegionErrorMessage(), "Error message is correctly displayed for Region/State");
-        Assert.assertEquals(checkoutPage.getActualPostcodeErrorMessage(), checkoutPage.getExpectedPostcodeErrorMessage(), "Error message is correctly displayed for Postcode");
+    public void validationErrorMessagesShouldBeShownForAllRequiredFields() throws InterruptedException {
+        Thread.sleep(1500);
+        Assert.assertEquals(checkoutPage.getActualFirstNameErrorMessage(),checkoutPage.getExpectedFirstNameErrorMessage(),"Error message is incorrectly displayed");
+        Assert.assertEquals(checkoutPage.getActualLastNameErrorMessage(), checkoutPage.getExpectedLastNameErrorMessage(), "Error message is incorrectly displayed for Last Name");
+        Assert.assertEquals(checkoutPage.getActualAddressOneErrorMessage(), checkoutPage.getExpectedAddressOneErrorMessage(), "Error message is incorrectly displayed for Address Line 1");
+        Assert.assertEquals(checkoutPage.getActualCountryErrorMessage(), checkoutPage.getExpectedCountryErrorMessage(), "Error message is incorrectly displayed for Country");
+        Assert.assertEquals(checkoutPage.getActualCityErrorMessage(), checkoutPage.getExpectedCityErrorMessage(), "Error message is incorrectly displayed for City");
+        Assert.assertEquals(checkoutPage.getActualRegionErrorMessage(), checkoutPage.getExpectedRegionErrorMessage(), "Error message is incorrectly displayed for Region/State");
+        Assert.assertEquals(checkoutPage.getActualPostcodeErrorMessage(), checkoutPage.getExpectedPostcodeErrorMessage(), "Error message is incorrectly displayed for Postcode");
     }
 }

@@ -23,7 +23,7 @@ public class LoginPage {
     By accountPageLocator = By.tagName("h1");
     String expectedTitleOfMyAccountPage =  "My Account";
 
-    String email = "test9@test.com";
+    String email = "test10@gmail.com";
     String password = "testtest";
 
     public LoginPage(WebDriver driver) {
