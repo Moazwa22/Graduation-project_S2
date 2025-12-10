@@ -64,6 +64,7 @@ public class CheckoutPage {
     By postCodeErrorLocator    = By.id("error-shipping-postcode");
     By regionErrorLocator      = By.id("error-shipping-zone");
     By addressOneErrorLocator  = By.id("error-shipping-address-1");
+    By shippingMethodErrorLocator = By.id("error-shipping-method");
 
     String expectedFirstNameErrorMessage  = "First Name must be between 1 and 32 characters!";
     String expectedLastNameErrorMessage   = "Last Name must be between 1 and 32 characters!";
@@ -72,6 +73,7 @@ public class CheckoutPage {
     String expectedPostCodeErrorMessage   = "Postcode must be between 2 and 10 characters!";
     String expectedCountryErrorMessage    = "Please select a country!";
     String expectedRegionErrorMessage     = "Please select a region / state!";
+    String expectedShippingErrorMessage = "Shipping method required!";
 
 
     public CheckoutPage(WebDriver driver) {
@@ -257,4 +259,10 @@ public class CheckoutPage {
         return driver.findElement(postCodeErrorLocator).getText();
     }
 
+    public String getExpectedShippingErrorMessage(){
+        return expectedShippingErrorMessage;
+    }
+    public String getActualShippingErrorMessage(){
+        return driver.findElement(shippingMethodErrorLocator).getText();
+    }
 }

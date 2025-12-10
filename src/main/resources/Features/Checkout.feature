@@ -38,9 +38,38 @@ Feature: Checkout Functionality
       | abdo tebry, depi, nasr, Cairo, Asyut, Egypt | Flat Shipping Rate |
       | abdo tebry, depi, nasr, Cairo, Asyut, Egypt | Free Shipping Rate |
 
-  Scenario: Required field validation messages appear if mandatory fields are empty
+#  Scenario: Required field validation messages appear if mandatory fields are empty
+#    Given user in checkout page
+#    When user selects 'I want to enter a new address'
+#    Then the user leaves all required fields empty
+#    And user presses continue button
+#    Then validation error messages should be shown for all required fields
+
+  Scenario Outline: Required field validation when one field is missing
     Given user in checkout page
     When user selects 'I want to enter a new address'
-    Then the user leaves all required fields empty
+    And the user enters the following address data:
+      | firstName   | lastName   | address1   | city     | postcode   | country   | region   | shipping    | payment   |
+      | <firstName> | <lastName> | <address1> | <city>   | <postcode> | <country> | <region> | <shipping>  | <payment> |
     And user presses continue button
-    Then validation error messages should be shown for all required fields
+    Then a validation message should appear for "<case>"
+
+    Examples:
+      | case | firstName | lastName | address1        | city   | postcode | country | region        | shipping           | payment          |
+      |1     |           | Tester   | 12 Test Street  | Cairo  | 12345    | Egypt   | Cairo Region  | Free Shipping Rate | Cash on delivery |
+      |2     | Tebry     |          | 12 Test Street  | Cairo  | 12345    | Egypt   | Cairo Region  | Free Shipping Rate | Cash on delivery |
+      |3     | Tebry     | Tester   |                 | Cairo  | 12345    | Egypt   | Cairo Region  | Free Shipping Rate | Cash on delivery |
+      |4     | Tebry     | Tester   | 12 Test Street  |        | 12345    | Egypt   | Cairo Region  | Free Shipping Rate | Cash on delivery |
+      |5     | Tebry     | Tester   | 12 Test Street  | Cairo  |          | Egypt   | Cairo Region  | Free Shipping Rate | Cash on delivery |
+      |6     | Tebry     | Tester   | 12 Test Street  | Cairo  | 12345    |         | Cairo Region  | Free Shipping Rate | Cash on delivery |
+      |7     | Tebry     | Tester   | 12 Test Street  | Cairo  | 12345    | Egypt   |               | Free Shipping Rate | Cash on delivery |
+      |8     | Tebry     | Tester   | 12 Test Street  | Cairo  | 12345    | Egypt   | Cairo Region  |                    | Cash on delivery |
+      |1     |           | Tester   | 12 Test Street  | Cairo  | 12345    | Egypt   | Cairo Region  | Flat Shipping Rate | Cash on delivery |
+      |2     | Tebry     |          | 12 Test Street  | Cairo  | 12345    | Egypt   | Cairo Region  | Flat Shipping Rate | Cash on delivery |
+      |3     | Tebry     | Tester   |                 | Cairo  | 12345    | Egypt   | Cairo Region  | Flat Shipping Rate | Cash on delivery |
+      |4     | Tebry     | Tester   | 12 Test Street  |        | 12345    | Egypt   | Cairo Region  | Flat Shipping Rate | Cash on delivery |
+      |5     | Tebry     | Tester   | 12 Test Street  | Cairo  |          | Egypt   | Cairo Region  | Flat Shipping Rate | Cash on delivery |
+      |6     | Tebry     | Tester   | 12 Test Street  | Cairo  | 12345    |         | Cairo Region  | Flat Shipping Rate | Cash on delivery |
+      |7     | Tebry     | Tester   | 12 Test Street  | Cairo  | 12345    | Egypt   |               | Flat Shipping Rate | Cash on delivery |
+      |8     | Tebry     | Tester   | 12 Test Street  | Cairo  | 12345    | Egypt   | Cairo Region  |                    | Cash on delivery |
+

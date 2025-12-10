@@ -10,6 +10,7 @@ import io.cucumber.java.en.When;
 import org.testng.Assert;
 
 import java.time.Duration;
+import java.util.Map;
 
 public class Checkout_StepDef {
 
@@ -102,15 +103,102 @@ public class Checkout_StepDef {
         checkoutPage.enterPostCode("");
     }
 
-    @Then("validation error messages should be shown for all required fields")
-    public void validationErrorMessagesShouldBeShownForAllRequiredFields() throws InterruptedException {
+    @Then("a validation message should appear for {string}")
+    public void validationMessageShouldAppear(int cases) throws InterruptedException {
         Thread.sleep(1500);
-        Assert.assertEquals(checkoutPage.getActualFirstNameErrorMessage(),checkoutPage.getExpectedFirstNameErrorMessage(),"Error message is incorrectly displayed");
+        switch (cases) {
+
+            case 1:
+                Assert.assertEquals(checkoutPage.getActualFirstNameErrorMessage(), checkoutPage.getExpectedFirstNameErrorMessage(), "First name error is incorrect"
+                );
+                break;
+
+            case 2:
+                Assert.assertEquals(checkoutPage.getActualLastNameErrorMessage(), checkoutPage.getExpectedLastNameErrorMessage(), "Last name error is incorrect"
+                );
+                break;
+
+            case 3:
+                Assert.assertEquals(checkoutPage.getActualAddressOneErrorMessage(), checkoutPage.getExpectedAddressOneErrorMessage(), "Address Line 1 error is incorrect");
+                break;
+
+            case 4:
+                Assert.assertEquals(checkoutPage.getActualCityErrorMessage(), checkoutPage.getExpectedCityErrorMessage(), "City error is incorrect");
+                break;
+
+            case 5:
+                Assert.assertEquals(checkoutPage.getActualPostcodeErrorMessage(), checkoutPage.getExpectedPostcodeErrorMessage(), "Postcode error is incorrect");
+                break;
+
+            case 6:
+                Assert.assertEquals(checkoutPage.getActualCountryErrorMessage(), checkoutPage.getExpectedCountryErrorMessage(), "Country error is incorrect");
+                break;
+
+            case 7:
+                Assert.assertEquals(checkoutPage.getActualRegionErrorMessage(), checkoutPage.getExpectedRegionErrorMessage(), "Region/State error is incorrect");
+                break;
+            case 8:
+                Assert.assertEquals(checkoutPage.getActualShippingErrorMessage(),checkoutPage.getExpectedShippingErrorMessage(),"Shipping error is incorrect");
+                break;
+
+                default:
+                throw new IllegalArgumentException("Unknown field: " + cases);
+        /*Assert.assertEquals(checkoutPage.getActualFirstNameErrorMessage(),checkoutPage.getExpectedFirstNameErrorMessage(),"Error message is incorrectly displayed");
         Assert.assertEquals(checkoutPage.getActualLastNameErrorMessage(), checkoutPage.getExpectedLastNameErrorMessage(), "Error message is incorrectly displayed for Last Name");
         Assert.assertEquals(checkoutPage.getActualAddressOneErrorMessage(), checkoutPage.getExpectedAddressOneErrorMessage(), "Error message is incorrectly displayed for Address Line 1");
         Assert.assertEquals(checkoutPage.getActualCountryErrorMessage(), checkoutPage.getExpectedCountryErrorMessage(), "Error message is incorrectly displayed for Country");
         Assert.assertEquals(checkoutPage.getActualCityErrorMessage(), checkoutPage.getExpectedCityErrorMessage(), "Error message is incorrectly displayed for City");
         Assert.assertEquals(checkoutPage.getActualRegionErrorMessage(), checkoutPage.getExpectedRegionErrorMessage(), "Error message is incorrectly displayed for Region/State");
-        Assert.assertEquals(checkoutPage.getActualPostcodeErrorMessage(), checkoutPage.getExpectedPostcodeErrorMessage(), "Error message is incorrectly displayed for Postcode");
+        Assert.assertEquals(checkoutPage.getActualPostcodeErrorMessage(), checkoutPage.getExpectedPostcodeErrorMessage(), "Error message is incorrectly displayed for Postcode");*/
+        }
+    }
+
+    @When("the user enters the following address data:")
+    public void theUserEntersAddressData(io.cucumber.datatable.DataTable dataTable) throws Exception {
+
+        Map<String, String> data = dataTable.asMap(String.class, String.class);
+
+        String firstName = data.get("firstName");
+        String lastName = data.get("lastName");
+        String address1 = data.get("address1");
+        String city = data.get("city");
+        String postcode = data.get("postcode");
+        String country = data.get("country");
+        String region = data.get("region");
+        String shipping = data.get("shipping");
+        String payment = data.get("payment");
+
+        checkoutPage.enterFirstName(firstName);
+        checkoutPage.enterLastName(lastName);
+        checkoutPage.enterAddressOne(address1);
+        checkoutPage.enterCity(city);
+        checkoutPage.enterPostCode(postcode);
+
+        if (!country.isEmpty()) {
+            checkoutPage.selectCountry(country);
+        }
+
+        if (!region.isEmpty()) {
+            checkoutPage.selectRegion(region);
+        }
+
+        if (!shipping.isEmpty()) {
+
+            if (shipping.equals("Flat Shipping Rate")) {
+                checkoutPage.selectFlatShippingRate();
+            } else {
+                checkoutPage.selectFreeShipping();
+            }
+
+            Assert.assertTrue(
+                    checkoutPage.alertMessage()
+                            .contains(checkoutPage.getShippingConfirmationAlertMessage())
+            );
+        }
+
+        if (!payment.isEmpty()) {
+            checkoutPage.payCashOnDelivery();
+        }
+
     }
 }
