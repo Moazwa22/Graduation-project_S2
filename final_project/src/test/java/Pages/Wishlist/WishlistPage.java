@@ -13,7 +13,7 @@ public class WishlistPage {
 
     By macBook = By.xpath("//div[@id='content']//a[text()='MacBook']");
     By removeBtn = By.cssSelector("a.btn.btn-danger");
-    By emptyMessage = By.xpath("//div[@id='wishlist']/p");
+//    By emptyMessage = By.xpath("//div[@id='wishlist']/p");
     By cartBtn = By.cssSelector("button.btn-dark.dropdown-toggle");
     By addToCartBtn = By.cssSelector("button.btn.btn-primary.mb-1[form='form-product-0']");
     By removeBtnFromCart = By.cssSelector("button.btn-danger i.fa-circle-xmark");
@@ -41,10 +41,6 @@ public class WishlistPage {
 
     public void clickRemoveButton() {
         driver.findElement(removeBtn).click();
-    }
-
-    public void emptyMessageAppear() {
-        driver.findElement(emptyMessage).isDisplayed();
     }
 
     public void clickAddToCartButtonOnProduct() {

@@ -90,72 +90,72 @@ Feature: Wishlist Functionality
     Then user click on cart
     And click on checkout button
     Then User redirect to checkout page
-
+#    TC16 Passed
   Scenario: verify that when clicking on "MyAccount" link at the right of the page the user redirected to MyAccount page
     And Clicking on Wish List button on the header of the page
     When Clicking on MyAccount link at the right of the page
     Then user redirected to MyAccount page
-
+#    TC17 Passed
   Scenario: verify that when clicking on "Edit Account" link at the right of the page the user redirected to MyAccount page
     And Clicking on Wish List button on the header of the page
     When Clicking on Edit Account link at the right of the page
     Then user redirected to Edit Account page
-
+#    TC18 Passed
   Scenario: verify that when clicking on "Password" link at the right of the page the user redirected to Password page
     And Clicking on Wish List button on the header of the page
     When Clicking on Password link at the right of the page
     Then user redirected to Password page
-
+#    TC19 Passed
   Scenario: verify that when clicking on "Payment Methods" link at the right of the page the user redirected to Payment Methods page
     And Clicking on Wish List button on the header of the page
     When Clicking on Payment Methods link at the right of the page
     Then user redirected to Payment Methods page
-
+#    TC20 Passed
   Scenario: verify that when clicking on "Address Book" link at the right of the page the user redirected to Address Book page
     And Clicking on Wish List button on the header of the page
     When Clicking on Address Book link at the right of the page
     Then user redirected to Address Book page
-
+#    TC21 Passed
   Scenario: verify that when clicking on "Wish List" link at the right of the page the user redirected to Wish List page
     And Clicking on Wish List button on the header of the page
     When Clicking on Wish List link at the right of the page
     Then user shouldn't redirected to any page
-
+#    TC22 Passed
   Scenario: verify that when clicking on "Order History" link at the right of the page the user redirected to Order History page
     And Clicking on Wish List button on the header of the page
     When Clicking on Order History link at the right of the page
     Then user redirected to Order History page
-
+#    TC23 Passed
   Scenario: verify that when clicking on "Downloads" link at the right of the page the user redirected to Downloads page
     And Clicking on Wish List button on the header of the page
     When Clicking on Downloads link at the right of the page
     Then user redirected to Downloads page
-
+#    TC24 Passed
   Scenario: verify that when clicking on "Subscriptions" link at the right of the page the user redirected to Subscriptions page
     And Clicking on Wish List button on the header of the page
     When Clicking on Subscriptions link at the right of the page
     Then user redirected to Subscriptions page
-
+#    TC25 Passed
   Scenario: verify that when clicking on "Reward Points" link at the right of the page the user redirected to Reward Points page
     And Clicking on Wish List button on the header of the page
     When Clicking on Reward Points link at the right of the page
     Then user redirected to Reward Points page
-
+#    TC26 Passed
   Scenario: verify that when clicking on "Returns" link at the right of the page the user redirected to Returns page
     And Clicking on Wish List button on the header of the page
     When Clicking on Returns link at the right of the page
     Then user redirected to Returns page
-
+#    TC27 Passed
   Scenario: verify that when clicking on "Transactions" link at the right of the page the user redirected to Transactions page
     And Clicking on Wish List button on the header of the page
     When Clicking on Transactions link at the right of the page
     Then user redirected to Transactions page
-
+#    TC28 Passed
   Scenario: verify that when clicking on "Newsletter" link at the right of the page the user redirected to Newsletter page
     And Clicking on Wish List button on the header of the page
     When Clicking on Newsletter link at the right of the page
     Then user redirected to Newsletter page
-
+#    TC29 Passed
   Scenario: verify that when clicking on "Logout" link at the right of the page the user redirected to Logout page
     And Clicking on Wish List button on the header of the page
     When Clicking on Logout link at the right of the page
