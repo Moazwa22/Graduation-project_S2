@@ -10,6 +10,7 @@ import io.cucumber.java.en.When;
 import org.testng.Assert;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.Map;
 
 public class Checkout_StepDef {
@@ -45,7 +46,8 @@ public class Checkout_StepDef {
     }
 
     @And("user presses continue button")
-    public void userPressesContinueButton() {
+    public void userPressesContinueButton() throws InterruptedException {
+        Thread.sleep(1500);
         checkoutPage.continueButton();
     }
 
@@ -103,7 +105,7 @@ public class Checkout_StepDef {
         checkoutPage.enterPostCode("");
     }
 
-    @Then("a validation message should appear for {string}")
+    @Then("a validation message should appear for {int}")
     public void validationMessageShouldAppear(int cases) throws InterruptedException {
         Thread.sleep(1500);
         switch (cases) {
@@ -156,49 +158,74 @@ public class Checkout_StepDef {
     @When("the user enters the following address data:")
     public void theUserEntersAddressData(io.cucumber.datatable.DataTable dataTable) throws Exception {
 
-        Map<String, String> data = dataTable.asMap(String.class, String.class);
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : data) {
 
-        String firstName = data.get("firstName");
-        String lastName = data.get("lastName");
-        String address1 = data.get("address1");
-        String city = data.get("city");
-        String postcode = data.get("postcode");
-        String country = data.get("country");
-        String region = data.get("region");
-        String shipping = data.get("shipping");
-        String payment = data.get("payment");
-
-        checkoutPage.enterFirstName(firstName);
-        checkoutPage.enterLastName(lastName);
-        checkoutPage.enterAddressOne(address1);
-        checkoutPage.enterCity(city);
-        checkoutPage.enterPostCode(postcode);
-
-        if (!country.isEmpty()) {
-            checkoutPage.selectCountry(country);
-        }
-
-        if (!region.isEmpty()) {
-            checkoutPage.selectRegion(region);
-        }
-
-        if (!shipping.isEmpty()) {
-
-            if (shipping.equals("Flat Shipping Rate")) {
-                checkoutPage.selectFlatShippingRate();
+            if (row.get("firstName") != null && !row.get("firstName").isEmpty()) {
+                checkoutPage.enterFirstName(row.get("firstName"));
             } else {
-                checkoutPage.selectFreeShipping();
+                checkoutPage.enterFirstName("");
             }
 
-            Assert.assertTrue(
-                    checkoutPage.alertMessage()
-                            .contains(checkoutPage.getShippingConfirmationAlertMessage())
-            );
-        }
+            if (row.get("lastName") != null && !row.get("lastName").isEmpty()) {
+                checkoutPage.enterLastName(row.get("lastName"));
+            } else {
+                checkoutPage.enterLastName("");
+            }
 
-        if (!payment.isEmpty()) {
-            checkoutPage.payCashOnDelivery();
-        }
+            if (row.get("address1") != null && !row.get("address1").isEmpty()) {
+                checkoutPage.enterAddressOne(row.get("address1"));
+            } else {
+                checkoutPage.enterAddressOne("");
+            }
 
+            if (row.get("city") != null && !row.get("city").isEmpty()) {
+                checkoutPage.enterCity(row.get("city"));
+            } else {
+                checkoutPage.enterCity("");
+            }
+
+            if (row.get("postcode") != null && !row.get("postcode").isEmpty()) {
+                checkoutPage.enterPostCode(row.get("postcode"));
+            } else {
+                checkoutPage.enterPostCode("");
+            }
+
+            if (row.get("country") != null && !row.get("country").isEmpty()) {
+                checkoutPage.selectCountry(row.get("country"));
+            }
+
+            if (row.get("region") != null && !row.get("region").isEmpty()) {
+                checkoutPage.selectRegion(row.get("region"));
+            }
+
+            if (row.get("shipping") != null && !row.get("shipping").isEmpty()) {
+                if (row.get("shipping").equals("Flat Shipping Rate")) {
+                    checkoutPage.selectFlatShippingRate();
+                } else {
+                    checkoutPage.selectFreeShipping();
+                }
+
+                Assert.assertTrue(checkoutPage.alertMessage().contains(checkoutPage.getShippingConfirmationAlertMessage()));
+            }
+
+            if(row.get("shipping")==null||row.get("shipping").isEmpty()){
+                checkoutPage.payCashOnDeliveryTest();
+            }
+            else if (row.get("payment") != null && !row.get("payment").isEmpty()) {
+                checkoutPage.payCashOnDelivery();
+            }
+        }
+    }
+
+    @When("user wants to select 'I want to enter a new address'")
+    public void userWantsToSelectIWantToEnterANewAddress() throws Exception {
+        if (checkoutPage.oldAddressExists()) {
+            checkoutPage.useOldAddress();
+        }
+        checkoutPage.chooseAnAlreadyExistingAddress("abdo tebry, depi, nasr, Cairo, Asyut, Egypt");
+        if(checkoutPage.oldAddressExists()) {
+            checkoutPage.useNewAddress();
+        }
     }
 }

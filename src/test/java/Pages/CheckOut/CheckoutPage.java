@@ -64,7 +64,7 @@ public class CheckoutPage {
     By postCodeErrorLocator    = By.id("error-shipping-postcode");
     By regionErrorLocator      = By.id("error-shipping-zone");
     By addressOneErrorLocator  = By.id("error-shipping-address-1");
-    By shippingMethodErrorLocator = By.id("error-shipping-method");
+    By shippingMethodErrorLocator = By.id("error-payment-method");
 
     String expectedFirstNameErrorMessage  = "First Name must be between 1 and 32 characters!";
     String expectedLastNameErrorMessage   = "Last Name must be between 1 and 32 characters!";
@@ -142,7 +142,8 @@ public class CheckoutPage {
         return checkoutPageExpectedTitle;
     }
 
-    public void continueButton(){
+    public void continueButton() throws InterruptedException {
+        Thread.sleep(1500);
         driver.findElement(continueButtonLocator).click();
     }
 
@@ -178,6 +179,10 @@ public class CheckoutPage {
         element.click();
         driver.findElement(cashOnDeliveryMethod).click();
         driver.findElement(continueButtonPaymentLocator).click();
+    }
+
+    public void payCashOnDeliveryTest(){
+        driver.findElement(paymentMethodLocator).click();
     }
 
     public String getPaymentMethodConfirmationAlertMessage(){
