@@ -48,6 +48,9 @@ public class LoginPage {
 
     By accountPageLocator = By.tagName("h1");
     String expectedTitleOfMyAccountPage = "My Account";
+    //-------------Amr-----------------------//
+    By userNameLocator = By.id("input-email");
+
 
     String email = "test10@gmail.com";
     String password = "testtest";
@@ -159,4 +162,13 @@ public class LoginPage {
     public String getExpectedTitleOfMyAccountPage() {
         return expectedTitleOfMyAccountPage;
     }
+
+    public void enterUserName(String userName) {
+        driver.findElement(userNameLocator).sendKeys(userName);
+    }
+
+    public void clickLoginButton() {
+        driver.findElement(loginButtonLocator).click();
+    }
+
 }

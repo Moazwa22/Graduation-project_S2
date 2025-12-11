@@ -22,6 +22,12 @@ public class MyAccountPage {
     By TransactionsLinkLocator = By.xpath("//a[text()='Your Transactions']");
     By RegisterAffiliateAccountLinkLocator = By.xpath("//a[text()='Register for an affiliate account']");
     By SubscribeNewsletterLinkLocator = By.xpath("//a[text()='Subscribe / unsubscribe to newsletter']");
+    //-----------------Amr-----------------------//
+    By HomePageIcon = By.cssSelector("a[href*='route=common/home']");
+
+    public void clickOnHomePageIcon() {
+        driver.findElement(HomePageIcon).click();
+    }
     public void clickOnEditAccountInfoLink() {driver.findElement(EditAccountInfoLinkLocator).click();}
     public void clickOnChangePasswordLink() {driver.findElement(ChangePasswordLinkLocator).click();}
     public void clickOnStoredPaymentMethodsLink() {driver.findElement(StoredPaymentMethodsLinkLocator).click();}

@@ -19,11 +19,11 @@ public class Login_StepDef {
     RegisterPage registerPage = new RegisterPage(Hooks.driver);
     ForgottenPasswordPage forgottenPasswordPage = new ForgottenPasswordPage(Hooks.driver);
 
-    @Given("user in home page")
+  /*  @Given("user in home page")
     public void userInHomePage1() {
 
     }
-
+*/
     @When("user click on my account drop down")
     public void userClickOnMyAccountDropDown() {
         homePage.ClickOnMyAccountIcon();

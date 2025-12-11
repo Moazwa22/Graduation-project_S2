@@ -68,6 +68,12 @@ public class HomePage extends Utilities {
     List<WebElement> productName = driver.findElements(By.tagName("h4"));
     List<WebElement> priceNew    = driver.findElements(By.className("price-new"));
     List<WebElement> priceTax    = driver.findElements(By.className("price-tax"));
+    //------------------------Amr------------------------//
+    By myAccountDropdownLocator = By.xpath("//span[text()='My Account']");
+    By loginLinkLocator = By.linkText("Login");
+    By wishlistIconForProduct = By.cssSelector("button[formaction*='wishlist.add']");
+    By wishlistCounterLocator = By.xpath("//span[contains(text(),'Wish List')]");
+    By successMessageLocator = By.cssSelector("div.alert.alert-success");
 
     public boolean isHomePageLoaded_HP(){
         try {
@@ -395,6 +401,35 @@ public class HomePage extends Utilities {
 
         double total = quantity * unitTPrice;
         return String.valueOf(total);
+    }
+    //----------------Amr abo bakr --------------//
+    public void clickMyAccountDropdown() {
+        driver.findElement(myAccountDropdownLocator).click();
+    }
+
+    public void clickLoginLink() {
+        driver.findElement(loginLinkLocator).click();
+    }
+
+    public void clickOnWishlistIcon() {
+        driver.findElement(wishlistIconForProduct).click();
+    }
+
+    public void clickOnWishlistCounter() {
+        driver.findElement(wishlistCounterLocator).click();
+    }
+
+    public String getWishlistCounterText() {
+        return driver.findElement(wishlistCounterLocator).getText();
+    }
+
+    public int getWishlistCount() {
+        String text = getWishlistCounterText();
+        String numberOnly = text.replaceAll("[^0-9]", "");
+        if (numberOnly.isEmpty()) {
+            return 0;
+        }
+        return Integer.parseInt(numberOnly);
     }
 
 }

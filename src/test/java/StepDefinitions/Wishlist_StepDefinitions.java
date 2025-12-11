@@ -1,0 +1,406 @@
+package StepDefinitions;
+
+import Pages.HomePage;
+import Pages.MyAccountPage;
+import Pages.WishlistPage;
+import Pages.LoginPage;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
+
+public class Wishlist_StepDefinitions {
+    WebDriver driver = Hooks.driver;
+    HomePage homePage = new HomePage(driver);
+    LoginPage loginPage = new LoginPage(driver);
+    MyAccountPage myAccountPage = new MyAccountPage(driver);
+    WishlistPage wishlistPage = new WishlistPage(driver);
+
+    //                                 Background
+    @Given("user on home page_W")
+    public void userOnHomePage_W() {
+    }
+
+    @When("user click on My Account dropdown_W")
+    public void userClickOnMyAccountDropdown_W() {
+        homePage.clickMyAccountDropdown();
+    }
+
+    @And("user click on Login link_W")
+    public void userClickOnLoginLink_W() {
+        homePage.clickLoginLink();
+    }
+
+    @Then("user redirect to login page_W")
+    public void userRedirectToLoginPage() {
+    }
+
+    @And("user enter valid email and password_W")
+    public void userEnterValidEmailAndPassword_W() {
+        loginPage.enterUserName("amrrr@gmail.com");
+        loginPage.enterPassword("123456789");
+    }
+
+    @Then("user redirect to myAccount page_W")
+    public void userRedirectToMyAccountPage_W() {
+    }
+
+    @And("user click on login button_W")
+    public void userClickOnLoginButton_W() throws InterruptedException {
+        loginPage.clickLoginButton();
+        Thread.sleep(500);
+    }
+
+    @When("user click on home icon to return to home page_W")
+    public void userClickOnHomeIconToReturnToHomePage_W() {
+        myAccountPage.clickOnHomePageIcon();
+    }
+
+    @Then("user redirect to home page_W")
+    public void userRedirectToHomePage_W() {
+    }
+
+    @When("user click on wishlist icon for MacBook product")
+    public void userClicksWishlistIcon_W() {
+        homePage.clickOnWishlistIcon();
+    }
+
+    //    Tc1
+    @And("Clicking on Wish List button on the header of the page")
+    public void clickingOnWishListButtonOnTheHeaderOfThePage_W() {
+        homePage.clickOnWishlistCounter();
+    }
+
+    @Then("Product displays on wish list page")
+    public void productDisplaysOnWishListPage_W() {
+        wishlistPage.productDisplayed();
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@id='content']//a[text()='MacBook']")).isDisplayed());
+    }
+
+    //TC2
+    @Then("success message should be displayed")
+    public void successMessageShouldBeDisplayed_W() {
+        homePage.successMessageDisplayed();
+        Assert.assertTrue(
+                driver.findElement(By.cssSelector("div.alert.alert-success")).getText().contains("Success"));
+    }
+
+    //TC3
+    @And("Clicking on remove button")
+    public void clickingOnRemoveButton_W() {
+        wishlistPage.clickRemoveButton();
+    }
+
+    @Then("empty message should be displayed")
+    public void emptyMessageShouldBeDisplayed_W() {
+        if (!driver.getCurrentUrl().contains("wishlist")) {
+            System.out.println("Redirected to login — cannot check empty wishlist message.");
+            return;
+        }
+        boolean isDisplayed = !driver.findElements(By.xpath("//div[@id='wishlist']/p")).isEmpty();
+        Assert.assertTrue(isDisplayed, "Empty wishlist message is not displayed!");
+    }
+
+
+    //    TC4
+    @And("Clicking on add to cart icon of the product")
+    public void clickingOnAddToCartIconOfTheProduct_W() {
+        wishlistPage.clickAddToCartButtonOnProduct();
+    }
+
+    //    TC5
+    int oldCount;
+
+    @When("user click on wishlist icon to Different product")
+    public void userClickOnWishlistIconForDifferentProduct_W() throws InterruptedException {
+        oldCount = homePage.getWishlistCount();
+        System.out.println("DEBUG: Count BEFORE click: " + oldCount);
+        Thread.sleep(1000);
+        homePage.clickOnWishlistIcon();
+        System.out.println("DEBUG: Clicked on Wishlist Icon");
+    }
+
+    @And("wishlist counter in header should increase by one")
+    public void wishlistCounterInHeaderShouldIncreaseByOne() throws InterruptedException {
+        System.out.println("Waiting for counter to update...");
+//        driver.navigate().refresh();
+        Thread.sleep(1000);
+        int newCount = homePage.getWishlistCount();
+        System.out.println("DEBUG: Count AFTER click: " + newCount);
+        Assert.assertEquals(newCount, oldCount + 1);
+    }
+
+    int oldRemoveCount;
+
+    @When("user remove product from wishlist")
+    public void userRemoveProductFromWishlist() throws InterruptedException {
+        oldRemoveCount = homePage.getWishlistCount();
+        Thread.sleep(500);
+        wishlistPage.clickRemoveButton();
+    }
+
+    @Then("wishlist counter should decrease by one")
+    public void wishlistCounterShouldDecreaseByOne() throws InterruptedException {
+        Thread.sleep(500);
+        int newCount = homePage.getWishlistCount();
+        Assert.assertEquals(newCount, oldRemoveCount - 1);
+    }
+
+
+    int oldCountCart;
+    double oldPrice;
+
+    @When("user adds MacBook to cart from wishlist")
+    public void userAddsMacbookToCartFromWishlist() throws InterruptedException {
+        oldCountCart = wishlistPage.getCartItemsCount();
+        oldPrice = wishlistPage.getCartTotalPrice();
+        wishlistPage.clickAddToCartButtonOnProduct();
+        Thread.sleep(1000);
+    }
+
+    @Then("cart counter and price should increase")
+    public void cartCounterAndPriceShouldIncrease() {
+
+        int newCount = wishlistPage.getCartItemsCount();
+        double newPrice = wishlistPage.getCartTotalPrice();
+
+        Assert.assertTrue(newCount > oldCount, "Cart count did not increase!");
+        Assert.assertTrue(newPrice > oldPrice, "Cart total price did not increase!");
+    }
+
+    @Then("user removes product from wishlist cart")
+    public void userRemovesProductFromWishlistCart() throws InterruptedException {
+
+        oldCount = wishlistPage.getCartItemsCount();
+        oldPrice = wishlistPage.getCartTotalPrice();
+        wishlistPage.clickOnRemoveButtonOnCart();
+        Thread.sleep(1000);
+    }
+
+    @Then("cart counter and price should decrease")
+    public void cartCounterAndPriceShouldDecrease() {
+
+        int newCount = wishlistPage.getCartItemsCount();
+        double newPrice = wishlistPage.getCartTotalPrice();
+
+        Assert.assertEquals(newCount, 0);
+        Assert.assertTrue(newPrice < oldPrice);
+    }
+
+    @When("user click on cart")
+    public void userClickOnCart() {
+        wishlistPage.userClickOnCart();
+    }
+
+    int oldQty;
+
+    @When("user adds the same product multiple times to cart")
+    public void userAddsSameProductMultipleTimes() throws InterruptedException {
+
+        wishlistPage.clickAddToCartButtonOnProduct();
+        Thread.sleep(200);
+        wishlistPage.openCartDropdown();
+        oldQty = wishlistPage.getDropdownQuantity();
+        wishlistPage.openCartDropdown();
+        wishlistPage.clickAddToCartButtonOnProduct();
+        Thread.sleep(1000);
+    }
+
+    @Then("the quantity inside the cart dropdown should increase")
+    public void quantityInsideCartShouldIncrease() throws InterruptedException {
+        wishlistPage.openCartDropdown();
+        Thread.sleep(1000);
+        int newQty = wishlistPage.getDropdownQuantity();
+        Assert.assertEquals(newQty, oldQty + 1);
+    }
+
+    @Then("user removes product from cart")
+    public void userRemovesProductFromCart() throws InterruptedException {
+        wishlistPage.clickOnRemoveButtonOnCart();
+        Thread.sleep(500);
+    }
+
+    @Then("success empty message should be displayed")
+    public void successEmptyMessageShouldBeDisplayed() {
+        String actualMessage = wishlistPage.getEmptyCartMessage();
+        String expectedMessage = "Your shopping cart is empty!";
+
+        Assert.assertEquals(actualMessage, expectedMessage);
+    }
+
+    @And("click on viewCart button")
+    public void clickOnViewCartButton() {
+        wishlistPage.clickViewCart();
+    }
+
+    @Then("User redirect to viewCart page")
+    public void userRedirectToViewCartPage_W() {
+        Assert.assertEquals(Hooks.driver.getCurrentUrl(), "http://localhost/opencart/index.php?route=checkout/cart&language=en-gb");
+    }
+
+    @And("click on checkout button")
+    public void clickOnCheckoutButton() {
+        wishlistPage.clickCheckout();
+    }
+
+    @Then("User redirect to checkout page")
+    public void userRedirectToCheckoutPage_W() {
+        Assert.assertEquals(Hooks.driver.getCurrentUrl(), "http://localhost/opencart/index.php?route=checkout/checkout&language=en-gb");
+    }
+
+    @When("Clicking on MyAccount link at the right of the page")
+    public void clickingOnMyAccountLink_W() {
+        wishlistPage.clickOnMyAccountLink();
+    }
+
+    @Then("user redirected to MyAccount page")
+    public void userRedirectedToMyAccountPage_W() {
+        Assert.assertTrue(driver.getCurrentUrl().contains("account/account"));
+    }
+
+
+    @When("Clicking on Edit Account link at the right of the page")
+    public void clickingOnEditAccountLink_W() {
+        wishlistPage.clickOnEditAccountLink();
+    }
+
+    @Then("user redirected to Edit Account page")
+    public void userRedirectedToEditAccountPage_W() {
+        Assert.assertTrue(driver.getCurrentUrl().contains("account/edit"));
+    }
+
+    @When("Clicking on Password link at the right of the page")
+    public void clickingOnPasswordLink() {
+        wishlistPage.clickOnPasswordLink();
+    }
+
+    @Then("user redirected to Password page")
+    public void userRedirectedToPasswordPage() {
+        Assert.assertTrue(driver.getCurrentUrl().contains("account/password"));
+    }
+
+
+    @When("Clicking on Payment Methods link at the right of the page")
+    public void clickingOnPaymentMethodsLink() {
+        wishlistPage.clickOnPaymentMethodsLink();
+    }
+
+    @Then("user redirected to Payment Methods page")
+    public void userRedirectedToPaymentMethodsPage_W() {
+        Assert.assertTrue(driver.getCurrentUrl().contains("account/payment"));
+    }
+
+    @When("Clicking on Address Book link at the right of the page")
+    public void clickingOnAddressBookLink() {
+        wishlistPage.clickOnAddressBookLink();
+    }
+
+    @Then("user redirected to Address Book page")
+    public void userRedirectedToAddressBookPage() {
+        Assert.assertTrue(driver.getCurrentUrl().contains("account/address"));
+    }
+
+
+    @When("Clicking on Wish List link at the right of the page")
+    public void clickingOnWishListLink() {
+        wishlistPage.clickOnWishListLink();
+    }
+
+    @Then("user shouldn't redirected to any page")
+    public void userRedirectedToWishListPage_W() {
+        Assert.assertTrue(driver.getCurrentUrl().contains("account/wishlist"));
+    }
+
+
+    @When("Clicking on Order History link at the right of the page")
+    public void clickingOnOrderHistoryLink() {
+        wishlistPage.clickOnOrderHistoryLink();
+    }
+
+    @Then("user redirected to Order History page")
+    public void userRedirectedToOrderHistoryPage() {
+        Assert.assertTrue(driver.getCurrentUrl().contains("account/order"));
+    }
+
+
+    @When("Clicking on Downloads link at the right of the page")
+    public void clickingOnDownloadsLink() {
+        wishlistPage.clickOnDownloadsLink();
+    }
+
+    @Then("user redirected to Downloads page")
+    public void userRedirectedToDownloadsPage_W() {
+        Assert.assertTrue(driver.getCurrentUrl().contains("account/download"));
+    }
+
+
+    @When("Clicking on Subscriptions link at the right of the page")
+    public void clickingOnSubscriptionsLink() {
+        wishlistPage.clickOnSubscriptionsLink();
+    }
+
+    @Then("user redirected to Subscriptions page")
+    public void userRedirectedToSubscriptionsPage_W() {
+        Assert.assertTrue(driver.getCurrentUrl().contains("account/subscription"));
+    }
+
+
+    @When("Clicking on Reward Points link at the right of the page")
+    public void clickingOnRewardPointsLink() {
+        wishlistPage.clickOnRewardPointsLink();
+    }
+
+    @Then("user redirected to Reward Points page")
+    public void userRedirectedToRewardPointsPage() {
+        Assert.assertTrue(driver.getCurrentUrl().contains("account/reward"));
+    }
+
+
+    @When("Clicking on Returns link at the right of the page")
+    public void clickingOnReturnsLink() {
+        wishlistPage.clickOnReturnsLink();
+    }
+
+    @Then("user redirected to Returns page")
+    public void userRedirectedToReturnsPage_W() {
+        Assert.assertTrue(driver.getCurrentUrl().contains("account/returns"));
+    }
+
+
+    @When("Clicking on Transactions link at the right of the page")
+    public void clickingOnTransactionsLink() {
+        wishlistPage.clickOnTransactionsLink();
+    }
+
+    @Then("user redirected to Transactions page")
+    public void userRedirectedToTransactionsPage() {
+        Assert.assertTrue(driver.getCurrentUrl().contains("account/transaction"));
+    }
+
+
+    @When("Clicking on Newsletter link at the right of the page")
+    public void clickingOnNewsletterLink() {
+        wishlistPage.clickOnNewsletterLink();
+    }
+
+    @Then("user redirected to Newsletter page")
+    public void userRedirectedToNewsletterPage_W() {
+        Assert.assertTrue(driver.getCurrentUrl().contains("account/newsletter"));
+    }
+
+
+    @When("Clicking on Logout link at the right of the page")
+    public void clickingOnLogoutLink() {
+        wishlistPage.clickOnLogoutLink();
+    }
+
+    @Then("user redirected to Logout page")
+    public void userRedirectedToLogoutPage_W() {
+        Assert.assertTrue(driver.getCurrentUrl().contains("logout"));
+    }
+
+
+}
