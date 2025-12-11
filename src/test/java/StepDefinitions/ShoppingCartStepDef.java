@@ -1,0 +1,178 @@
+package StepDefinitions;
+
+import Pages.CheckOutPage;
+import Pages.HomePage;
+import Pages.ShoppingCartPage;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import org.testng.Assert;
+
+public class ShoppingCartStepDef {
+    HomePage homePage = new HomePage(Hooks.driver);
+    ShoppingCartPage shoppingCartPage;
+    CheckOutPage checkOutPage;
+    String expectedName, expectedUprice, expectedTaxprice, expectedTPProduct;
+
+
+    @Given("I'm guest user, I am in home Page and not added any items to my cart")
+    public void iMGuestUserIAmInHomePageAndNotAddedAnyItemsToMyCart() {
+        Assert.assertEquals(Hooks.driver.getCurrentUrl(),"http://localhost/opencart/");
+    }
+
+    @When("I Go to Shopping Cart page")
+    public void iGoToShoppingCartPage() {
+        shoppingCartPage = homePage.clickShoppingCart();
+        Assert.assertTrue(shoppingCartPage.getPageTitle().contains("Shopping Cart"));
+    }
+
+    @And("Verify State indication {string} appears to me")
+    public void verifyStateIndicationAppearsToMe(String massage) {
+
+        if (massage.equalsIgnoreCase("valid")) {
+            Assert.assertEquals(
+                    shoppingCartPage.getEmptyMassage(),"Your shopping cart is empty!"
+            );
+        } else {
+            Assert.fail("Invalid example parameter: " + massage);
+        }
+    }
+
+    @And("Verify State indication {string} appears to me when I press on cart icon")
+    public void verifyStateIndicationAppearsToMeWhenIPressOnCartIcon(String massage) {
+        if (massage.equalsIgnoreCase("valid")) {
+            Assert.assertTrue(
+                    homePage.getMassageLocator().contains(homePage.getExpectedEmptyMassage())
+            );
+        } else {
+            Assert.fail("Invalid example parameter: " + massage);
+        }
+    }
+
+
+    @Then("I press continue button to complete shopping")
+    public void iPressContinueButtonToCompleteShopping() {
+        homePage = shoppingCartPage.clickContinueButton();
+        Assert.assertEquals(Hooks.driver.getCurrentUrl(),"http://localhost/opencart/index.php?route=common/home&language=en-gb");
+    }
+
+
+    @And("I'm at home page")
+    public void iMAtHomePage() {
+        Assert.assertEquals(Hooks.driver.getCurrentUrl(),"http://localhost/opencart/index.php?route=account/home&language=en-gb");
+    }
+
+    @When("I press on cart icon")
+    public void iPressOnCartIcon() {
+        homePage.clickCarticon();
+    }
+
+    @When("I can add products to my cart")
+    public void iCanAddProductsToMyCart() {
+        homePage.addMackBookToCart();
+    }
+
+    @Then("Verify {string} appears shows me the action is done in home page")
+    public void verifyAppearsShowsMeTheActionIsDoneInHomePage(String Massage) {
+        Assert.assertEquals(homePage.getActualText(),(Massage.trim()));
+    }
+
+    @Then("I can update {string}")
+    public void iCanUpdate(String quantity) {
+        shoppingCartPage.updateQuantity(quantity);
+    }
+
+    @Then("Verify {string} appears shows me the action is done in Shopping cart page")
+    public void verifyAppearsShowsMeTheActionIsDoneInShoppingCartPage(String Massage) {
+        Assert.assertEquals(shoppingCartPage.getActualText(),(Massage.trim()));
+    }
+
+    @And("I press remove icon")
+    public void iPressRemoveIcon() {
+        shoppingCartPage.removeItem();
+    }
+
+    @Then("I go to Use Coupon code Drop down list")
+    public void iGoToUseCouponCodeDropDownList() {
+        shoppingCartPage.clickAddCouponDropDown();
+    }
+
+    @And("Enter my {string} I have")
+    public void enterMyIHave(String Coupon) {
+        shoppingCartPage.enterCoupon(Coupon);
+    }
+
+    @And("press Apply Coupon Botton")
+    public void pressApplyCouponBotton() {
+        shoppingCartPage.pressApplyCouponButton();
+    }
+
+    @Then("Indication {string} appears show me either it is {string}")
+    public void indicationAppearsShowMeEitherItIs(String massage, String accepted) {
+
+
+    }
+
+    @Then("I press continue shopping button to complete shopping")
+    public void iPressContinueShoppingButtonToCompleteShopping() {
+        homePage = shoppingCartPage.clickContinueShoppingBtn();
+        Assert.assertEquals(Hooks.driver.getCurrentUrl(),"http://localhost/opencart/index.php?route=common/home&language=en-gb");
+    }
+
+    @Then("I press checkout button redirected to checkout page")
+    public void iPressCheckoutButtonRedirectedToCheckoutPage() {
+        checkOutPage = shoppingCartPage.clickCheckOutBtn();
+        Assert.assertTrue(checkOutPage.getPageTitle().contains("Checkout"));
+    }
+
+    @Then("I press view cart btn")
+    public void iPressViewCartBtn() {
+        shoppingCartPage = homePage.clickViewCartBtn();
+        Assert.assertTrue(shoppingCartPage.getPageTitle().contains("Shopping Cart"));
+    }
+
+    @Then("I press check out btn")
+    public void iPressCheckOutBtn() {
+        checkOutPage = homePage.clickCheckoutBtn();
+        Assert.assertTrue(checkOutPage.getPageTitle().contains("Checkout"));
+    }
+
+    @Then("I press delete icon")
+    public void iPressDeleteIcon() throws InterruptedException {
+        Thread.sleep(9000);
+        homePage.deleteItem();
+    }
+
+
+    @And("I Noticed Product details")
+    public void iNoticedProductDetails() {
+        expectedName     = homePage.getPName();
+        expectedUprice   = homePage.getPriceN();
+        expectedTaxprice = homePage.getPriceT();
+        expectedTPProduct = expectedUprice;
+    }
+
+    @Then("The product name and price displayed in the cart should match the product added")
+    public void theProductNameAndPriceDisplayedInTheCartShouldMatchTheProductAdded() {
+        Assert.assertEquals(shoppingCartPage.getPName(),expectedName);
+        Assert.assertEquals(shoppingCartPage.getUPrice(),expectedUprice);
+        Assert.assertEquals(shoppingCartPage.getTPProd(),expectedTPProduct);
+        Assert.assertTrue(expectedTaxprice.contains(shoppingCartPage.getSubTotal()));
+    }
+
+    @Then("The product name and price displayed in the cart icon should match the product added")
+    public void theProductNameAndPriceDisplayedInTheCartIconShouldMatchTheProductAdded(){
+        homePage.clickCarticon();
+        Assert.assertEquals(homePage.getPNameCI(),expectedName);
+        Assert.assertEquals(homePage.getTPProdCI(),expectedUprice);
+        Assert.assertTrue(expectedTaxprice.contains(homePage.getSubTotalCI()));
+    }
+
+    @And("Calculated {string} should it be")
+    public void calculatedShouldItBe(String quantity) {
+        expectedTPProduct = homePage.getPriceN(quantity);
+        expectedTaxprice = homePage.getPriceT(quantity);
+    }
+
+}
