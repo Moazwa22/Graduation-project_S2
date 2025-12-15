@@ -1,7 +1,7 @@
 package StepDefinitions;
 
+import Pages.MyAccount.RightListButton;
 import Pages.MyAccountPage;
-import Pages.RightListButton;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

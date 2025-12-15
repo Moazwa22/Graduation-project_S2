@@ -1,8 +1,8 @@
-package Pages;
+package Pages.SharedComponents;
 
-import Pages.CheckOutPage;
-import Pages.HomePage;
-import Pages.ShoppingCartPage;
+import Pages.CheckOut.CheckOutPage;
+import Pages.Home.HomePage;
+import Pages.ShoppingCart.ShoppingCartPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;

@@ -1,24 +1,25 @@
-package Pages;
-import StepDefinitions.Hooks;
+package Pages.CheckOut;
+
+import Pages.SharedComponents.Utilities;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import StepDefinitions.Hooks;
+import io.cucumber.java.ar.اذاً;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
-import java.util.NoSuchElementException;
-
 
 public class CheckOutPage extends Utilities {
-
-    public CheckOutPage(WebDriver driver) {
-        super(driver);
-    }
-
-    //----------------------Tebry-------------------//
+    WebDriver driver;
     WebDriverWait wait = new WebDriverWait(Hooks.driver, Duration.ofSeconds(10));
+
+    By pageTitleLocator = By.cssSelector("#content > h1");
+    //--------------Tebry-----------------//
     By useANewAddressLocator = By.xpath("//input[@value = '0']");
     By useOldAddressLocator = By.xpath("//input[@value = '1']");
     By firstNameLocator = By.xpath("//input[@id = 'input-shipping-firstname']");
@@ -60,110 +61,106 @@ public class CheckOutPage extends Utilities {
 
     //Error Locators
     By firstNameErrorLocator = By.id("error-shipping-firstname");
-    By lastNameErrorLocator = By.id("error-shipping-lastname");
-    By countryErrorLocator = By.id("error-shipping-country");
-    By cityErrorLocator = By.id("error-shipping-city");
-    By postCodeErrorLocator = By.id("error-shipping-postcode");
-    By regionErrorLocator = By.id("error-shipping-zone");
-    By addressOneErrorLocator = By.id("error-shipping-address-1");
+    By lastNameErrorLocator    = By.id("error-shipping-lastname");
+    By countryErrorLocator     = By.id("error-shipping-country");
+    By cityErrorLocator        = By.id("error-shipping-city");
+    By postCodeErrorLocator    = By.id("error-shipping-postcode");
+    By regionErrorLocator      = By.id("error-shipping-zone");
+    By addressOneErrorLocator  = By.id("error-shipping-address-1");
+    By shippingMethodErrorLocator = By.id("error-payment-method");
 
-    String expectedFirstNameErrorMessage = "First Name must be between 1 and 32 characters!";
-    String expectedLastNameErrorMessage = "Last Name must be between 1 and 32 characters!";
+    String expectedFirstNameErrorMessage  = "First Name must be between 1 and 32 characters!";
+    String expectedLastNameErrorMessage   = "Last Name must be between 1 and 32 characters!";
     String expectedAddressOneErrorMessage = "Address 1 must be between 3 and 128 characters!";
-    String expectedCityErrorMessage = "City must be between 2 and 128 characters!";
-    String expectedPostCodeErrorMessage = "Postcode must be between 2 and 10 characters!";
-    String expectedCountryErrorMessage = "Please select a country!";
-    String expectedRegionErrorMessage = "Please select a region / state!";
+    String expectedCityErrorMessage       = "City must be between 2 and 128 characters!";
+    String expectedPostCodeErrorMessage   = "Postcode must be between 2 and 10 characters!";
+    String expectedCountryErrorMessage    = "Please select a country!";
+    String expectedRegionErrorMessage     = "Please select a region / state!";
+    String expectedShippingErrorMessage = "Shipping method required!";
 
-    //--------------Esraa----------------------//
-    By pageTitleLocator = By.cssSelector("#content > h1");
+    public CheckOutPage(WebDriver driver) {
+        super(driver);
+    }
 
     public String getPageTitle() {
         return driver.findElement(pageTitleLocator).getText();
     }
 
-    //------------Tebry------------------------//
-    public void useNewAddress() {
+    //--------------Tebry--------------//
+
+
+    public void useNewAddress(){
         driver.findElement(useANewAddressLocator).click();
     }
 
-    public void enterFirstName(String firstName) {
+    public void enterFirstName(String firstName){
         driver.findElement(firstNameLocator).sendKeys(firstName);
     }
-
-    public void enterLastName(String lastName) {
+    public void enterLastName(String lastName){
         driver.findElement(lastNameLocator).sendKeys(lastName);
     }
-
-    public void enterCompany(String company) {
+    public void enterCompany(String company){
         driver.findElement(companyLocator).sendKeys(company);
     }
-
-    public void enterAddressOne(String addressOne) {
+    public void enterAddressOne(String addressOne){
         driver.findElement(addressOneLocator).sendKeys(addressOne);
     }
-
-    public void enterAddressTwo(String addressTwo) {
+    public void enterAddressTwo(String addressTwo){
         driver.findElement(addressTwoLocator).sendKeys(addressTwo);
     }
-
-    public void enterCity(String city) {
+    public void enterCity(String city){
         driver.findElement(cityLocator).sendKeys(city);
     }
-
-    public void enterPostCode(String postCode) {
+    public void enterPostCode(String postCode){
         driver.findElement(postcodeLocator).sendKeys(postCode);
     }
-
-    public void selectCountry(String country) throws Exception {
+    public void selectCountry(String country) throws Exception{
         try {
             WebElement element = wait.until(ExpectedConditions.elementToBeClickable(countrySelectorLocator));
             element.click();
             Select countryList = new Select(driver.findElement(countrySelectorLocator));
             countryList.selectByVisibleText(country);
-        } catch (NoSuchElementException e) {
+        }catch (NoSuchElementException e){
             throw new Exception("Value " + country + " not found in dropdown " + countrySelectorLocator + "");
         }
     }
-
-    public void selectRegion(String region) throws Exception {
+    public void selectRegion(String region) throws Exception{
         try {
             WebElement element = wait.until(ExpectedConditions.elementToBeClickable(regionSelectorLocator));
             element.click();
             Select countryList = new Select(driver.findElement(regionSelectorLocator));
             countryList.selectByVisibleText(region);
-        } catch (NoSuchElementException e) {
+        }catch (NoSuchElementException e){
             throw new Exception("Value " + region + " not found in dropdown " + regionSelectorLocator + "");
         }
     }
 
-    public String alertMessage() {
+    public String alertMessage(){
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(alertMessageLocator));
         element.click();
         return driver.findElement(alertMessageLocator).getText();
     }
-
-    public String successfulAddressAdded() {
+    public String successfulAddressAdded(){
         return successfulAddressAlert;
     }
 
-    public String checkoutPageActualTitle() {
+    public String checkoutPageActualTitle(){
         return driver.findElement(checkoutPageTitle).getText();
     }
-
-    public String checkoutPageExpectedTitle() {
+    public String checkoutPageExpectedTitle(){
         return checkoutPageExpectedTitle;
     }
 
-    public void continueButton() {
+    public void continueButton() throws InterruptedException {
+        Thread.sleep(1500);
         driver.findElement(continueButtonLocator).click();
     }
 
-    public void useOldAddress() {
+    public void useOldAddress(){
         driver.findElement(useOldAddressLocator).click();
     }
 
-    public boolean oldAddressExists() {
+    public boolean oldAddressExists(){
         return driver.findElement(useOldAddressLocator).isSelected();
     }
 
@@ -181,11 +178,11 @@ public class CheckOutPage extends Utilities {
         driver.findElement(continueButtonShippingLocator).click();
     }
 
-    public String getShippingConfirmationAlertMessage() {
+    public String getShippingConfirmationAlertMessage(){
         return shippingConfirmationAlertMessage;
     }
 
-    public void payCashOnDelivery() {
+    public void payCashOnDelivery(){
         driver.findElement(paymentMethodLocator).click();
         WebElement element = wait.until(ExpectedConditions.elementToBeClickable(cashOnDeliveryMethod));
         element.click();
@@ -193,48 +190,50 @@ public class CheckOutPage extends Utilities {
         driver.findElement(continueButtonPaymentLocator).click();
     }
 
-    public String getPaymentMethodConfirmationAlertMessage() {
+    public void payCashOnDeliveryTest(){
+        driver.findElement(paymentMethodLocator).click();
+    }
+
+    public String getPaymentMethodConfirmationAlertMessage(){
         return paymentMethodConfirmationAlertMessage;
     }
 
-    public void enterComment(String comment) {
+    public void enterComment(String comment){
         driver.findElement(commentEnteringField).sendKeys(comment);
     }
 
-    public void confirmCheckout() {
+    public void confirmCheckout(){
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(confirmCheckoutButton))).click();
     }
 
-    public String getExpectedSuccessfulOrderPlacedMessage() {
+    public String getExpectedSuccessfulOrderPlacedMessage(){
         return expectedSuccessfulOrderPlacedMessage;
     }
 
-    public String getActualSuccessfulOrderPlacedMessage() {
+    public String getActualSuccessfulOrderPlacedMessage(){
         return driver.findElement(actualSuccessfulOrderPlacedMessage).getText();
     }
 
     public void chooseAnAlreadyExistingAddress(String address) throws Exception {
         try {
             Select countryList = new Select(driver.findElement(alreadyExistingAddress));
-            countryList.selectByVisibleText(address);
-        } catch (NoSuchElementException e) {
+            countryList.selectByContainsVisibleText(address);
+        }catch (NoSuchElementException e){
             throw new Exception("Value " + address + " not found in dropdown " + alreadyExistingAddress + "");
         }
     }
 
     //Error Methods
-    public String getExpectedFirstNameErrorMessage() {
+    public String getExpectedFirstNameErrorMessage(){
         return expectedFirstNameErrorMessage;
     }
-
-    public String getActualFirstNameErrorMessage() {
+    public String getActualFirstNameErrorMessage(){
         return driver.findElement(firstNameErrorLocator).getText();
     }
 
     public String getExpectedLastNameErrorMessage() {
         return expectedLastNameErrorMessage;
     }
-
     public String getActualLastNameErrorMessage() {
         return driver.findElement(lastNameErrorLocator).getText();
     }
@@ -242,7 +241,6 @@ public class CheckOutPage extends Utilities {
     public String getExpectedAddressOneErrorMessage() {
         return expectedAddressOneErrorMessage;
     }
-
     public String getActualAddressOneErrorMessage() {
         return driver.findElement(addressOneErrorLocator).getText();
     }
@@ -250,7 +248,6 @@ public class CheckOutPage extends Utilities {
     public String getExpectedCountryErrorMessage() {
         return expectedCountryErrorMessage;
     }
-
     public String getActualCountryErrorMessage() {
         return driver.findElement(countryErrorLocator).getText();
     }
@@ -258,7 +255,6 @@ public class CheckOutPage extends Utilities {
     public String getExpectedCityErrorMessage() {
         return expectedCityErrorMessage;
     }
-
     public String getActualCityErrorMessage() {
         return driver.findElement(cityErrorLocator).getText();
     }
@@ -266,7 +262,6 @@ public class CheckOutPage extends Utilities {
     public String getExpectedRegionErrorMessage() {
         return expectedRegionErrorMessage;
     }
-
     public String getActualRegionErrorMessage() {
         return driver.findElement(regionErrorLocator).getText();
     }
@@ -274,8 +269,14 @@ public class CheckOutPage extends Utilities {
     public String getExpectedPostcodeErrorMessage() {
         return expectedPostCodeErrorMessage;
     }
-
     public String getActualPostcodeErrorMessage() {
         return driver.findElement(postCodeErrorLocator).getText();
+    }
+
+    public String getExpectedShippingErrorMessage(){
+        return expectedShippingErrorMessage;
+    }
+    public String getActualShippingErrorMessage(){
+        return driver.findElement(shippingMethodErrorLocator).getText();
     }
 }

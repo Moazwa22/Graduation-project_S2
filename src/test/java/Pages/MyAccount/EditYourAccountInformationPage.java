@@ -1,4 +1,4 @@
-package Pages;
+package Pages.MyAccount;
 
 import org.openqa.selenium.WebDriver;
 

@@ -1,14 +1,14 @@
 Feature: Checkout Functionality
 
   Background:
-    Given user in home page
+    Given user in home page_T
     When user clicks login
     When user enters credentials
     And press Login
     Then return to home page
     And user adds item to cart
 
-  Scenario Outline: Verify user can checkout using a new address and flat shipping rate
+  Scenario Outline: Verify user can checkout using a new address and flat shipping rate or free shippin rate
     Given user in checkout page
     When user selects 'I want to enter a new address'
     Then enters all information correctly
@@ -38,9 +38,37 @@ Feature: Checkout Functionality
       | abdo tebry, depi, nasr, Cairo, Asyut, Egypt | Flat Shipping Rate |
       | abdo tebry, depi, nasr, Cairo, Asyut, Egypt | Free Shipping Rate |
 
-  Scenario: Required field validation messages appear if mandatory fields are empty
+#  Scenario: Required field validation messages appear if mandatory fields are empty
+#    Given user in checkout page
+#    When user selects 'I want to enter a new address'
+#    Then the user leaves all required fields empty
+#    And user presses continue button
+#    Then validation error messages should be shown for all required fields
+
+  Scenario Outline: Required field validation when one field is missing
     Given user in checkout page
-    When user selects 'I want to enter a new address'
-    Then the user leaves all required fields empty
+    When user wants to select 'I want to enter a new address'
+    And the user enters the following address data:
+      | firstName   | lastName   | address1   | city     | postcode   | country   | region   | shipping    | payment   |
+      | <firstName> | <lastName> | <address1> | <city>   | <postcode> | <country> | <region> | <shipping>  | <payment> |
     And user presses continue button
-    Then validation error messages should be shown for all required fields
+    Then a validation message should appear for <case>
+
+    Examples:
+      | case | firstName | lastName | address1        | city   | postcode | country | region | shipping           | payment          |
+      |1     |           | Tester   | 12 Test Street  | Cairo  | 12345    | Egypt   | Asyut  |Free Shipping Rate| Cash on delivery |
+      |2     | Tebry     |          | 12 Test Street  | Cairo  | 12345    | Egypt   | Asyut  |Free Shipping Rate| Cash on delivery |
+      |3     | Tebry     | Tester   |                 | Cairo  | 12345    | Egypt   | Asyut  |Free Shipping Rate| Cash on delivery |
+      |4     | Tebry     | Tester   | 12 Test Street  |        | 12345    | Egypt   | Asyut  |Free Shipping Rate| Cash on delivery |
+      |5     | Tebry     | Tester   | 12 Test Street  | Cairo  |          | Egypt   | Asyut  |Free Shipping Rate| Cash on delivery |
+      |6     | Tebry     | Tester   | 12 Test Street  | Cairo  | 12345    |--- Please Select ---| --- None --- |Free Shipping Rate| Cash on delivery |
+      |7     | Tebry     | Tester   | 12 Test Street  | Cairo  | 12345    | Egypt   |        |Free Shipping Rate| Cash on delivery |
+      |8     | Tebry     | Tester   | 12 Test Street  | Cairo  | 12345    | Egypt   | Asyut  |                    | Cash on delivery |
+      |1     |           | Tester   | 12 Test Street  | Cairo  | 12345    | Egypt   | Asyut  |Flat Shipping Rate| Cash on delivery |
+      |2     | Tebry     |          | 12 Test Street  | Cairo  | 12345    | Egypt   | Asyut  |Flat Shipping Rate| Cash on delivery |
+      |3     | Tebry     | Tester   |                 | Cairo  | 12345    | Egypt   | Asyut  |Flat Shipping Rate| Cash on delivery |
+      |4     | Tebry     | Tester   | 12 Test Street  |        | 12345    | Egypt   | Asyut  |Flat Shipping Rate| Cash on delivery |
+      |5     | Tebry     | Tester   | 12 Test Street  | Cairo  |          | Egypt   | Asyut  |Flat Shipping Rate| Cash on delivery |
+      |6     | Tebry     | Tester   | 12 Test Street  | Cairo  | 12345    |--- Please Select ---| --- None --- |Flat Shipping Rate| Cash on delivery |
+      |7     | Tebry     | Tester   | 12 Test Street  | Cairo  | 12345    | Egypt   |        |Flat Shipping Rate| Cash on delivery |
+      |8     | Tebry     | Tester   | 12 Test Street  | Cairo  | 12345    | Egypt   | Asyut  |                   | Cash on delivery |

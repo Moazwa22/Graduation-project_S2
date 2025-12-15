@@ -1,16 +1,17 @@
 package StepDefinitions;
 
-import Pages.HomePage;
-import Pages.LoginPage;
+import Pages.Home.HomePage;
+import Pages.MyAccount.LoginPage;
 import Pages.ProductPage;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.java.en.And;
 import org.testng.Assert;
-import java.time.Duration;
+
 import static StepDefinitions.Hooks.driver;
+
 public class ProductStepsTest {
+
 
     HomePage home = new HomePage(driver);
     ProductPage product = new ProductPage(driver);

@@ -1,5 +1,6 @@
-package Pages;
+package Pages.MyAccount;
 
+import Pages.CheckOut.CheckOutPage;
 import Pages.MyAccountPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,21 +12,15 @@ import java.time.Duration;
 public class LoginPage {
     WebDriver driver;
     WebDriverWait wait;
-
-    public LoginPage(WebDriver driver) {
+    public LoginPage(WebDriver driver){
 
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    //----------------------Raneem----------------------//
-    By emailInput = By.id("input-email");
-    By passwordInput = By.id("input-password");
-    By loginButton = By.cssSelector("button[type='submit']");
-    By accountDropdown = By.cssSelector("a[title='My Account']");
-    //----------------------------Mohab----------------//
+    By userNameLocator = By.id("input-email");
     By EmailLocator = By.id("input-email");
-    By PasswordLocator = By.id("input-password");
+    By PasswordLocator =By.id("input-password");
     By LoginButtonLocator = By.xpath("//button[text()='Login']");
     By HomePageIcon = By.xpath("//a[contains(@href,'route=common/home')]");
     By ContinueButtonLocator = By.linkText("Continue");
@@ -33,8 +28,11 @@ public class LoginPage {
     By LoginLinkLocator = By.xpath("//a[@class='list-group-item' and text()='Login']");
     By RegisterLinkLocator = By.xpath("//a[@class='list-group-item' and text()='Register']");
     By ForgottenPasswordLinkLocator = By.xpath("//a[@class='list-group-item' and text()='Forgotten Password']");
-    //---------------------Tebry------------//
 
+    //--------------------Raneem------------//
+    By loginButton = By.cssSelector("button[type='submit']");
+    By accountDropdown = By.cssSelector("a[title='My Account']");
+    //-------------Tebry-------------//
     By emaillocator = By.id("input-email");
 
     By passwordLocator = By.id("input-password");
@@ -47,10 +45,7 @@ public class LoginPage {
     By cartIconLocator = By.xpath("//span[contains(text(), 'Checkout')]");
 
     By accountPageLocator = By.tagName("h1");
-    String expectedTitleOfMyAccountPage = "My Account";
-    //-------------Amr-----------------------//
-    By userNameLocator = By.id("input-email");
-
+    String expectedTitleOfMyAccountPage =  "My Account";
 
     String email = "test10@gmail.com";
     String password = "testtest";
@@ -59,48 +54,35 @@ public class LoginPage {
 
         driver.findElement(EmailLocator).sendKeys(email);
     }
-
-    public void enterPassword(String password) {
+    public void enterPassword(String password){
 
         driver.findElement(PasswordLocator).sendKeys(password);
     }
 
-    public void clickOnLoginButton() {
+    public void clickOnLoginButton(){
 
         driver.findElement(LoginButtonLocator).click();
     }
-
     public void clickOnHomePageIcon() {
 
         driver.findElement(HomePageIcon).click();
     }
-
-    public void clickOnContinueButton() {
+    public void clickOnContinueButton(){
         driver.findElement(ContinueButtonLocator).click();
         new RegisterPage(driver);
     }
-
     public MyAccountPage userRedirectionToMyAccountPage() {
         driver.findElement(LoginButtonLocator).click();
         return new MyAccountPage(driver);
     }
-
-    public ForgottenPasswordPage clickOnForgottenPasswordBlueLink() {
+    public ForgottenPasswordPage clickOnForgottenPasswordBlueLink (){
         driver.findElement(ForgottenPasswordLocator).click();
         return new ForgottenPasswordPage(driver);
     }
 
-    //--------------------------Mohab-------------------//
+    //--------------Raneem------------//
     public void openLoginPage() {
         driver.get("http://localhost/opencartproject/index.php?route=account/login&language=en-gb");
-    }
-
-    public void enterEmail_P(String email) {
-        driver.findElement(emailInput).sendKeys(email);
-    }
-
-    public void enterPassword_P(String password) {
-        driver.findElement(passwordInput).sendKeys(password);
     }
 
     public void clickLogin() {
@@ -109,11 +91,11 @@ public class LoginPage {
 
 
     public void login(String username, String password) {
-        driver.findElement(emailInput).clear();
-        driver.findElement(emailInput).sendKeys(username);
+        driver.findElement(EmailLocator).clear();
+        driver.findElement(EmailLocator).sendKeys(username);
 
-        driver.findElement(passwordInput).clear();
-        driver.findElement(passwordInput).sendKeys(password);
+        driver.findElement(PasswordLocator).clear();
+        driver.findElement(PasswordLocator).sendKeys(password);
 
         driver.findElement(loginButton).click();
 
@@ -129,40 +111,37 @@ public class LoginPage {
             login(username, password);
         }
     }
-
-    //------------------------------Raneem---------------------------//
-
-    //---------------------------Tebry--------------------------//
-    public void Login() {
+    //--------------Tebry------------//
+    public void Login(){
         driver.findElement(emaillocator).sendKeys(email);
         driver.findElement(passwordLocator).sendKeys(password);
     }
 
-    public void pressLogin() {
+    public void pressLogin(){
         driver.findElement(loginButtonLocator).click();
     }
 
-    public void returnToHomaPage() {
+    public void returnToHomaPage(){
         driver.findElement(homeButtonLocator).click();
     }
 
-    public void addItem() {
+    public void addItem(){
         driver.findElement(addToCartLocator).click();
     }
 
-    public CheckOutPage checkout() {
+    public CheckOutPage checkout(){
         driver.findElement(cartIconLocator).click();
         return new CheckOutPage(driver);
     }
 
-    public String actualTitleOfAccountPage() {
+    public String actualTitleOfAccountPage(){
         return driver.findElement(accountPageLocator).getText();
     }
 
-    public String getExpectedTitleOfMyAccountPage() {
+    public String getExpectedTitleOfMyAccountPage(){
         return expectedTitleOfMyAccountPage;
     }
-
+    //-----------Amr-----------//
     public void enterUserName(String userName) {
         driver.findElement(userNameLocator).sendKeys(userName);
     }

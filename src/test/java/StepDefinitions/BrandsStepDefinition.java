@@ -1,9 +1,9 @@
 package StepDefinitions;
 
 import Pages.BrandsPage;
-import Pages.HomePage;
-import io.cucumber.java.PendingException;
-import io.cucumber.java.en.*;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.testng.Assert;
 
 public class BrandsStepDefinition {

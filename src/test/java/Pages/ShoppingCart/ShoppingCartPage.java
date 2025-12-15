@@ -1,12 +1,13 @@
-package Pages;
+package Pages.ShoppingCart;
 
-import Pages.CheckOutPage;
-import Pages.HomePage;
-import Pages.Utilities;
-
-import org.openqa.selenium.*;
+import Pages.CheckOut.CheckOutPage;
+import Pages.Home.HomePage;
+import Pages.SharedComponents.Utilities;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;

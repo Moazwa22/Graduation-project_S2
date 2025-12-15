@@ -2,10 +2,11 @@ package Pages;
 
 import org.openqa.selenium.WebDriver;
 
-public class MyAccountDropDownList {
+public class viewCartPage {
     WebDriver driver;
-    public MyAccountDropDownList (WebDriver driver)
-    {
+
+    public viewCartPage(WebDriver driver) {
         this.driver = driver;
     }
+
 }

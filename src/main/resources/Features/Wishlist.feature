@@ -1,13 +1,13 @@
 Feature: Wishlist Functionality
 
   Background:
-    Given user on home page_W
-    When user click on My Account dropdown_W
-    And user click on Login link_W
+    Given user on home page_A
+    When user click on My Account dropdown
+    And user click on Login link
     And user enter valid email and password
-    And user click on login button_W
-    Then user redirect to myAccount page_W
-    When user click on home icon to return to home page_W
+    And user click on login button_A
+    Then user redirect to myAccount page_A
+    When user click on home icon to return to home page
     Then user redirect to home page
     When user click on wishlist icon for MacBook product
     #TC1 passed
@@ -94,12 +94,12 @@ Feature: Wishlist Functionality
   Scenario: verify that when clicking on "MyAccount" link at the right of the page the user redirected to MyAccount page
     And Clicking on Wish List button on the header of the page
     When Clicking on MyAccount link at the right of the page
-    Then user redirected to MyAccount page
+    Then user redirected to MyAccount page_A
 #    TC16 Passed
   Scenario: verify that when clicking on "Edit Account" link at the right of the page the user redirected to MyAccount page
     And Clicking on Wish List button on the header of the page
     When Clicking on Edit Account link at the right of the page
-    Then user redirected to Edit Account page
+    Then user redirected to Edit Account page_A
 #    TC17 Passed
   Scenario: verify that when clicking on "Password" link at the right of the page the user redirected to Password page
     And Clicking on Wish List button on the header of the page

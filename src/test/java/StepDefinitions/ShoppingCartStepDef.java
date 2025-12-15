@@ -1,8 +1,8 @@
 package StepDefinitions;
 
-import Pages.CheckOutPage;
-import Pages.HomePage;
-import Pages.ShoppingCartPage;
+import Pages.CheckOut.CheckOutPage;
+import Pages.Home.HomePage;
+import Pages.ShoppingCart.ShoppingCartPage;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -23,7 +23,7 @@ public class ShoppingCartStepDef {
 
     @When("I Go to Shopping Cart page")
     public void iGoToShoppingCartPage() {
-        shoppingCartPage = homePage.clickShoppingCart();
+        homePage.clickShoppingCart();
         Assert.assertTrue(shoppingCartPage.getPageTitle().contains("Shopping Cart"));
     }
 

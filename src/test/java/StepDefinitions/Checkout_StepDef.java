@@ -1,14 +1,12 @@
 package StepDefinitions;
 
-import Pages.CheckOutPage;
-import Pages.LoginPage;
+import Pages.CheckOut.CheckOutPage;
+import Pages.MyAccount.LoginPage;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
-
-import java.time.Duration;
 
 public class Checkout_StepDef {
 
@@ -43,7 +41,7 @@ public class Checkout_StepDef {
     }
 
     @And("user presses continue button")
-    public void userPressesContinueButton() {
+    public void userPressesContinueButton() throws InterruptedException {
         checkoutPage.continueButton();
     }
 

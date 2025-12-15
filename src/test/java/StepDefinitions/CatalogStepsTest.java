@@ -1,18 +1,23 @@
 package StepDefinitions;
+
 import Pages.CatalogPage;
-import Pages.HomePage;
+import Pages.Home.HomePage;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+
 import static StepDefinitions.Hooks.driver;
 
 public class CatalogStepsTest {
-    HomePage home = new HomePage(driver);
-    CatalogPage catalog = new CatalogPage(driver);
+
+    HomePage home;
+    CatalogPage catalog;
 
     @Given("the user is on the home page")
     public void theUserIsOnTheHomePage() {
         driver.get("http://localhost/opencartproject/index.php?route=common/home");
+        home = new HomePage(driver);
+        catalog = new CatalogPage(driver);
     }
 
     @When("the user navigates to Mac")

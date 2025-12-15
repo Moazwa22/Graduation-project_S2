@@ -5,10 +5,11 @@ import org.openqa.selenium.WebDriver;
 
 public class MyAccountPage {
     WebDriver driver;
+
     public MyAccountPage(WebDriver driver) {
         this.driver=driver;
     }
-
+    By HomePageIcon = By.cssSelector("a[href*='route=common/home']");
     By EditAccountInfoLinkLocator = By.xpath("//a[text()='Edit your account information']");
     By ChangePasswordLinkLocator = By.xpath("//a[text()='Change your password']");
     By StoredPaymentMethodsLinkLocator = By.xpath("//a[text()='Stored payment methods']");
@@ -22,12 +23,6 @@ public class MyAccountPage {
     By TransactionsLinkLocator = By.xpath("//a[text()='Your Transactions']");
     By RegisterAffiliateAccountLinkLocator = By.xpath("//a[text()='Register for an affiliate account']");
     By SubscribeNewsletterLinkLocator = By.xpath("//a[text()='Subscribe / unsubscribe to newsletter']");
-    //-----------------Amr-----------------------//
-    By HomePageIcon = By.cssSelector("a[href*='route=common/home']");
-
-    public void clickOnHomePageIcon() {
-        driver.findElement(HomePageIcon).click();
-    }
     public void clickOnEditAccountInfoLink() {driver.findElement(EditAccountInfoLinkLocator).click();}
     public void clickOnChangePasswordLink() {driver.findElement(ChangePasswordLinkLocator).click();}
     public void clickOnStoredPaymentMethodsLink() {driver.findElement(StoredPaymentMethodsLinkLocator).click();}
@@ -66,11 +61,9 @@ public class MyAccountPage {
     public void clickOnMyAccountLinkList(){driver.findElement(MyAccountLinkListLocator).click();}
     public void ClickEditAccountLinkList(){driver.findElement(EditAccountLinkListLocator).click();}
     public void ClickPasswordLinkList(){driver.findElement(PasswordLinkListLocator).click();}
+    //-----------Amr-----------//
+    public void clickOnHomePageIcon() {
 
-
-
-
-
-
-
+        driver.findElement(HomePageIcon).click();
+    }
 }

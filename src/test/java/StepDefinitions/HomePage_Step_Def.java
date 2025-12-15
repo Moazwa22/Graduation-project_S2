@@ -1,6 +1,6 @@
 package StepDefinitions;
 
-import Pages.HomePage;
+import Pages.Home.HomePage;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+
 import java.time.Duration;
 import java.util.List;
 
@@ -353,7 +354,7 @@ public class HomePage_Step_Def {
     @When("User clicks on Shopping Cart icon")
     public void clickOnCartIcon() {
         HomePage H16 = new HomePage(Hooks.driver);
-        H16.clickShoppingCart1();
+        H16.clickShoppingCart();
     }
 
     @Then("User should be redirected to Cart page")

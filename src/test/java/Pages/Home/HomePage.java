@@ -1,4 +1,7 @@
-package Pages;
+package Pages.Home;
+
+import Pages.MyAccount.LoginPage;
+import Pages.SharedComponents.Utilities;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -6,18 +9,22 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import Pages.Utilities;
 
 public class HomePage extends Utilities {
     WebDriver driver;
 
     public HomePage(WebDriver driver) {
         super(driver);
+        this.driver = driver;
     }
+    //--------Tebry------//
+    //By myAccount = By.xpath("//span[contains(text(), 'My Account')]");
     By loginButton = By.linkText("Login");
+    //---------Esraa-------//
     By homePageLocator = By.xpath("//h3[text()='Featured']");
     By products = By.cssSelector(".product-thumb");
     By bannerButtons = By.cssSelector("#menu .nav > li > a");
@@ -42,7 +49,7 @@ public class HomePage extends Utilities {
     By passwordLogin = By.id("input-password");
     By logInButton = By.xpath("//button[@class='btn btn-primary']");
     By myAccountLogin = By.xpath("//h1[text() = 'My Account']");
-    public By addToCartButtons = By.xpath("//i[@class='fa-solid fa-shopping-cart']");
+    public By addToCartButtons = By.xpath("//button[@formaction='http://localhost/opencart/index.php?route=checkout/cart.add&language=en-gb']");
     By registerPage = By.xpath("//h1[text()='Register Account']");
     By loginPage = By.xpath("//h2[text()='Returning Customer']");
     By wishlistButtonAtTheTop = By.xpath("//span[text() = 'Wish List (0)']");
@@ -52,30 +59,30 @@ public class HomePage extends Utilities {
     public By successAlert = By.xpath("//div[@class='alert alert-success alert-dismissible']");
     By shoppingCartIcon = By.xpath("//a[@title='Shopping Cart']");
     By footerLinks = By.cssSelector("footer a");
-    //------------------------MohabAhmed-----------------//
+    //------------Esraa-------------------//
+    By addToCartIcons = By.xpath("//button[@type='submit']/i");
+    By productNames = By.tagName("h4");
+    By priceNew = By.className("price-new");
+    By priceTax = By.className("price-tax");
+
+    //----------Mohab--------------//
     By MyAccountLocator = By.linkText("My Account");
     By LoginLocator = By.xpath("//a[@class='dropdown-item' and text()='Login']");
     By RegisterLocator = By.xpath("//a[@class='dropdown-item' and text()='Register']");
-    //-------------------------Raneem--------------------//
+    //----------Raneem------------//
     By searchInput = By.name("search");
-    By searchButton_P = By.cssSelector(".btn.btn-light.btn-lg");
+   // By searchButton = By.cssSelector(".btn.btn-light.btn-lg");
     By specialsLink = By.linkText("Specials");
     By desktopsMenu = By.linkText("Desktops");
     // By macSubCategory = By.linkText("Mac");
     // By showAllDesktops = By.linkText("Show All Desktops");
-    //------------------------Esraa---------------------//
-    private List<WebElement> addToCartLocator = driver.findElements(By.xpath("//button[@type = 'submit']/i"));
-    List<WebElement> productName = driver.findElements(By.tagName("h4"));
-    List<WebElement> priceNew    = driver.findElements(By.className("price-new"));
-    List<WebElement> priceTax    = driver.findElements(By.className("price-tax"));
-    //------------------------Amr------------------------//
+    //------------Amr-------------//
     By myAccountDropdownLocator = By.xpath("//span[text()='My Account']");
     By loginLinkLocator = By.linkText("Login");
     By wishlistIconForProduct = By.cssSelector("button[formaction*='wishlist.add']");
     By wishlistCounterLocator = By.xpath("//span[contains(text(),'Wish List')]");
     By successMessageLocator = By.cssSelector("div.alert.alert-success");
-
-    public boolean isHomePageLoaded_HP(){
+    public boolean isHomePageLoaded_HP() {   //********************//
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             WebElement featured = wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocator));
@@ -84,7 +91,7 @@ public class HomePage extends Utilities {
             js.executeScript("arguments[0].scrollIntoView(true);", featured);
 
             return featured.isDisplayed();
-        } catch (Exception e) {
+        } catch (Exception homeNotLoaded) {
             return false;
         }
     }
@@ -94,21 +101,20 @@ public class HomePage extends Utilities {
         js.executeScript("window.scrollBy(0, 500);");
     }
 
-    public int getNumberOfDisplayedProducts(){
-        return driver.findElements(products).size();
-
+    public int getNumberOfDisplayedProducts() {
+        return driver.findElements(products).size();  //********************************//
     }
 
-    public void clickBannerButton(String buttonName){
+    public void clickBannerButton(String buttonName) {
 
         List<WebElement> buttons = driver.findElements(bannerButtons);
 
-        for(WebElement button : buttons){
-            if (button.getText().equalsIgnoreCase(buttonName)){
+        for (WebElement button : buttons) {
+            if (button.getText().equalsIgnoreCase(buttonName)) {
                 button.click();
                 WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(4));
 
-                switch (buttonName.toLowerCase()){
+                switch (buttonName.toLowerCase()) {
 
                     case "desktops":
                         wait.until(ExpectedConditions.visibilityOfElementLocated(showAllDesktops_B)).click();
@@ -135,23 +141,23 @@ public class HomePage extends Utilities {
         }
     }
 
-    public void clickOnCurrencyButton(){
+    public void clickOnCurrencyButton() {
         driver.findElement(currencyButton).click();
     }
 
-    public void clickOnEuroCurrency(){
+    public void clickOnEuroCurrency() {
         driver.findElement(euroCurrency).click();
     }
 
-    public void clickOnPoundStrCurrency(){
+    public void clickOnPoundStrCurrency() {
         driver.findElement(poundStrCurrency).click();
     }
 
-    public void clickOnUsDollarCurrency(){
+    public void clickOnUsDollarCurrency() {
         driver.findElement(usDollarCurrency).click();
     }
 
-    public boolean arePricesUpdated(String expectedSymbol) {
+    public boolean arePricesUpdated(String expectedSymbol) { //******************//
         List<WebElement> productPrices = driver.findElements(P_Prices);
         if (productPrices.isEmpty()) return false;
 
@@ -163,7 +169,7 @@ public class HomePage extends Utilities {
     }
 
 
-    public double[] getPrices() {
+    public double[] getPrices() { //*********************//
         List<WebElement> productPrices = driver.findElements(P_Prices);
         double[] prices = new double[productPrices.size()];
 
@@ -179,15 +185,15 @@ public class HomePage extends Utilities {
         return driver.findElement(products).isDisplayed();
     }
 
-    public void clickOnProduct(int index){
+    public void clickOnProduct(int index) {
         driver.findElements(products).get(index).click();
     }
 
-    public void activeSearchbar(){
+    public void activeSearchbar() {
         driver.findElement(searchBar).click();
     }
 
-    public void searchForProduct(String productName){
+    public void searchForProduct(String productName) {
         driver.findElement(searchBar).sendKeys(productName);
         driver.findElement(searchButton).click();
     }
@@ -196,7 +202,7 @@ public class HomePage extends Utilities {
         return driver.findElement(searchPageTitle_P).getText();
     }
 
-    public void clickContactNumber(){
+    public void clickContactNumber() {
         driver.findElement(contactNumber).click();
     }
 
@@ -204,7 +210,7 @@ public class HomePage extends Utilities {
         return driver.findElement(contactPageTitle).isDisplayed();
     }
 
-    public void clickMyAccount(){
+    public void clickMyAccount() {
         driver.findElement(myAccount).click();
     }
 
@@ -216,48 +222,44 @@ public class HomePage extends Utilities {
         return driver.findElement(accountOption2).isDisplayed();
     }
 
-    public void clickRegister(){
+    public void clickRegister() {
         driver.findElement(accountOption1).click();
     }
 
-    public void clickLogin(){
+    public void clickLogin() {
         driver.findElement(accountOption2).click();
     }
 
-    public boolean userIsOnRegisterPage(){
+    public boolean userIsOnRegisterPage() {
         return driver.findElement(registerPage).isDisplayed();
     }
 
-    public boolean userIsOnLogInPage(){
+    public boolean userIsOnLogInPage() {
         return driver.findElement(loginPage).isDisplayed();
     }
 
-    public boolean successMessageDisplayed(){
+    public boolean successMessageDisplayed() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(successAlert));
         return driver.findElement(successAlert).isDisplayed();
     }
 
-    public void clickShoppingCart1(){
-        driver.findElement(shoppingCartIcon).click();
-    }
-
-    public void clickWishlistAtTheTop(){
+    public void clickWishlistAtTheTop() {
         driver.findElement(wishlistButtonAtTheTop).click();
     }
 
-    public boolean userIsRedirectedToWishlistPage(){
+    public boolean userIsRedirectedToWishlistPage() {
         driver.findElement(wishlistButtonAtTheTop).click();
         return driver.findElement(wishListPageListWishList).isDisplayed();
     }
 
-    public boolean verifyUserIsOnLogInPage(){
+    public boolean verifyUserIsOnLogInPage() {
         driver.findElement(myAccount).click();
         driver.findElement(accountOption2).click();
         return driver.findElement(loginPage).isDisplayed();
     }
 
-    public boolean userIsLoggedIn(String E_MailAddress, String password){
+    public boolean userIsLoggedIn(String E_MailAddress, String password) {
         driver.findElement(E_mailFieldLogin).sendKeys(E_MailAddress);
         driver.findElement(passwordLogin).sendKeys(password);
         driver.findElement(logInButton).click();
@@ -270,7 +272,13 @@ public class HomePage extends Utilities {
         driver.get("http://localhost/opencart/index.php?route=common/home&language=en-gb");
     }
 
-    public void clickWishListButtonAtProduct(){
+    public void clickOnAddToProduct() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebElement btn = wait.until(ExpectedConditions.presenceOfElementLocated(addToCartButtons));
+        btn.click();
+    }
+
+    public void clickWishListButtonAtProduct() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement wishListButton = wait.until(ExpectedConditions.elementToBeClickable(wishListAtProduct));
         wishListButton.click();
@@ -282,7 +290,7 @@ public class HomePage extends Utilities {
         return alert.isDisplayed();
     }
 
-    public boolean compareListHasProducts(){
+    public boolean compareListHasProducts() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.visibilityOfElementLocated(successAlert));
         return successMessageDisplayed();
@@ -314,31 +322,65 @@ public class HomePage extends Utilities {
         }
     }
 
-    //------------------Mohab---------------------//
-        public void  ClickOnMyAccountIcon(){ //---Mohab--//
-            driver.findElement(MyAccountLocator).click();
-        }
+    //--------------------Esraa------------------//
+    public void addMackBookToCart() {
+        List<WebElement> buttons = driver.findElements(addToCartIcons);
+        WebElement element = buttons.get(1);
 
-        public LoginPage  ClickOnLogin(){
-            driver.findElement(LoginLocator).click();
-            return new LoginPage(driver);
-        }
-        public void clickOnRegister()
-        {
-            driver.findElement(RegisterLocator).click();
-        }
-
-        //--------------Tebry-----------//
-        public LoginPage login(){
-        driver.findElement(myAccount).click();
-        driver.findElement(loginButton).click();
-        return new LoginPage(driver);
+        ((JavascriptExecutor) driver)
+                .executeScript("arguments[0].scrollIntoView(true);", element);
+        ((JavascriptExecutor) driver)
+                .executeScript("arguments[0].click();", element);
     }
 
-        //----------------------Raneem---------------//
-        public void openCategory(String categoryName) {
-            driver.findElement(By.linkText(categoryName)).click();
-        }
+
+    public String getPName() {
+        return driver.findElements(productNames).get(0).getText();
+    }
+
+
+    public String getPriceN() {
+        return driver.findElements(priceNew).get(0).getText();
+    }
+
+
+    public String getPriceT() {
+        return driver.findElements(priceTax).get(0).getText();
+    }
+
+    public String getPriceN(String no) {
+        double quantity = Double.parseDouble(no.trim());
+        double unitNPrice = Double.parseDouble(getPriceN().replaceAll("[^0-9.]", ""));
+
+        double total = quantity * unitNPrice;
+        return String.valueOf(total);
+    }
+
+    public String getPriceT(String no) {
+        double quantity = Double.parseDouble(no.trim());
+        double unitTPrice = Double.parseDouble(getPriceN().replaceAll("[^0-9.]", ""));
+
+        double total = quantity * unitTPrice;
+        return String.valueOf(total);
+    }
+    //-------------Mohab----------------//
+    public void  ClickOnMyAccountIcon(){
+        driver.findElement(MyAccountLocator).click();
+    }
+
+    public LoginPage ClickOnLogin(){
+        driver.findElement(LoginLocator).click();
+        return new LoginPage(driver);
+    }
+    public void clickOnRegister()
+    {
+        driver.findElement(RegisterLocator).click();
+    }
+
+    //----------Raneem------------//
+    public void openCategory(String categoryName) {
+        driver.findElement(By.linkText(categoryName)).click();
+    }
 
     public void clickSubCategory(String subCategoryName) {
         driver.findElement(By.linkText(subCategoryName)).click();
@@ -374,35 +416,14 @@ public class HomePage extends Utilities {
         WebElement mac = wait.until(ExpectedConditions.elementToBeClickable(By.partialLinkText("Mac")));
         mac.click();
     }
-    //------------------Esraa-----------------//
-    public void addMackBookToCart(){
-        WebElement element = addToCartLocator.get(1);
-        // Scroll into view
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-        // Click using JS to avoid interception
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+    //--------Tebry------//
+    public LoginPage login(){
+        driver.findElement(myAccount).click();
+        driver.findElement(loginButton).click();
+        return new LoginPage(driver);
     }
 
-    public String getPName (){return productName.get(0).getText();}
-    public String getPriceN(){return priceNew.get(0).getText();}
-    public String getPriceT(){return priceTax.get(0).getText();}
-
-    public String getPriceN(String no) {
-        double quantity = Double.parseDouble(no.trim());
-        double unitNPrice = Double.parseDouble(getPriceN().replaceAll("[^0-9.]", ""));
-
-        double total = quantity * unitNPrice;
-        return String.valueOf(total);
-    }
-
-    public String getPriceT(String no) {
-        double quantity = Double.parseDouble(no.trim());
-        double unitTPrice = Double.parseDouble(getPriceN().replaceAll("[^0-9.]", ""));
-
-        double total = quantity * unitTPrice;
-        return String.valueOf(total);
-    }
-    //----------------Amr abo bakr --------------//
+    //---------AMR abo bakr -----------//
     public void clickMyAccountDropdown() {
         driver.findElement(myAccountDropdownLocator).click();
     }

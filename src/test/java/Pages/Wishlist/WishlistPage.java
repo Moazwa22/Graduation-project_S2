@@ -1,4 +1,4 @@
-package Pages;
+package Pages.Wishlist;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

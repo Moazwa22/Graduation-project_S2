@@ -1,6 +1,5 @@
-package Pages;
+package Pages.MyAccount;
 
-import Pages.MyAccountPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 

@@ -1,16 +1,17 @@
 package StepDefinitions;
 
-
-import Pages.*;
-import io.cucumber.core.logging.LoggerFactory;
+import Pages.Home.HomePage;
+import Pages.MyAccount.ForgottenPasswordPage;
+import Pages.MyAccount.LoginPage;
+import Pages.MyAccount.RegisterPage;
+import Pages.MyAccountPage;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-
-import java.util.Collections;
-import java.util.logging.Logger;
 
 public class Login_StepDef {
     HomePage homePage = new HomePage(Hooks.driver);
@@ -18,12 +19,11 @@ public class Login_StepDef {
     MyAccountPage myAccountPage = new MyAccountPage(Hooks.driver);
     RegisterPage registerPage = new RegisterPage(Hooks.driver);
     ForgottenPasswordPage forgottenPasswordPage = new ForgottenPasswordPage(Hooks.driver);
+    private static final Logger log = LoggerFactory.getLogger(Login_StepDef.class);
 
-  /*  @Given("user in home page")
-    public void userInHomePage1() {
+    @Given("user in home page_M")
+    public void userInHomePage() {}
 
-    }
-*/
     @When("user click on my account drop down")
     public void userClickOnMyAccountDropDown() {
         homePage.ClickOnMyAccountIcon();
@@ -119,10 +119,9 @@ public class Login_StepDef {
         loginPage.clickOnHomePageIcon();
     }
 
-    //------------Tebry-----------------//
-    private static final Logger log = (Logger) LoggerFactory.getLogger(Login_StepDef.class);
-    @Given("user in home page")
-    public void userInHomePage(){
+    //--------Tebry---------//
+    @Given("user in home page_T")
+    public void userInHomePage3(){
         homePage = new HomePage(Hooks.driver);
     }
 
@@ -151,5 +150,4 @@ public class Login_StepDef {
     public void returnToHomePage() {
         loginPage.returnToHomaPage();
     }
-
 }

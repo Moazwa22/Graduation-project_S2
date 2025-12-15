@@ -1,9 +1,9 @@
 package StepDefinitions;
 
-import Pages.HomePage;
+import Pages.Home.HomePage;
+import Pages.MyAccount.LoginPage;
 import Pages.MyAccountPage;
-import Pages.WishlistPage;
-import Pages.LoginPage;
+import Pages.Wishlist.WishlistPage;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -20,69 +20,70 @@ public class Wishlist_StepDefinitions {
     WishlistPage wishlistPage = new WishlistPage(driver);
 
     //                                 Background
-    @Given("user on home page_W")
-    public void userOnHomePage_W() {
+    @Given("user on home page_A")
+    public void userOnHomePage() {
+
     }
 
-    @When("user click on My Account dropdown_W")
-    public void userClickOnMyAccountDropdown_W() {
+    @When("user click on My Account dropdown")
+    public void userClickOnMyAccountDropdown() {
         homePage.clickMyAccountDropdown();
     }
 
-    @And("user click on Login link_W")
-    public void userClickOnLoginLink_W() {
+    @And("user click on Login link")
+    public void userClickOnLoginLink() {
         homePage.clickLoginLink();
     }
 
-    @Then("user redirect to login page_W")
+    @Then("user redirect to login page_A")
     public void userRedirectToLoginPage() {
     }
 
-    @And("user enter valid email and password_W")
-    public void userEnterValidEmailAndPassword_W() {
+    @And("user enter valid email and password_A")
+    public void userEnterValidEmailAndPassword() {
         loginPage.enterUserName("amrrr@gmail.com");
         loginPage.enterPassword("123456789");
     }
 
-    @Then("user redirect to myAccount page_W")
-    public void userRedirectToMyAccountPage_W() {
+    @Then("user redirect to myAccount page_A")
+    public void userRedirectToMyAccountPage() {
     }
 
-    @And("user click on login button_W")
-    public void userClickOnLoginButton_W() throws InterruptedException {
+    @And("user click on login button_A")
+    public void userClickOnLoginButton() throws InterruptedException {
         loginPage.clickLoginButton();
         Thread.sleep(500);
     }
 
-    @When("user click on home icon to return to home page_W")
-    public void userClickOnHomeIconToReturnToHomePage_W() {
+    @When("user click on home icon to return to home page")
+    public void userClickOnHomeIconToReturnToHomePage() {
         myAccountPage.clickOnHomePageIcon();
     }
 
-    @Then("user redirect to home page_W")
-    public void userRedirectToHomePage_W() {
+    @Then("user redirect to home page_A")
+    public void userRedirectToHomePage() {
     }
 
     @When("user click on wishlist icon for MacBook product")
-    public void userClicksWishlistIcon_W() {
+    public void userClicksWishlistIcon() {
         homePage.clickOnWishlistIcon();
     }
 
     //    Tc1
     @And("Clicking on Wish List button on the header of the page")
-    public void clickingOnWishListButtonOnTheHeaderOfThePage_W() {
+    public void clickingOnWishListButtonOnTheHeaderOfThePage() {
         homePage.clickOnWishlistCounter();
     }
 
     @Then("Product displays on wish list page")
-    public void productDisplaysOnWishListPage_W() {
+    public void productDisplaysOnWishListPage() {
         wishlistPage.productDisplayed();
         Assert.assertTrue(driver.findElement(By.xpath("//div[@id='content']//a[text()='MacBook']")).isDisplayed());
     }
 
     //TC2
     @Then("success message should be displayed")
-    public void successMessageShouldBeDisplayed_W() {
+    public void successMessageShouldBeDisplayed() {
         homePage.successMessageDisplayed();
         Assert.assertTrue(
                 driver.findElement(By.cssSelector("div.alert.alert-success")).getText().contains("Success"));
@@ -90,12 +91,12 @@ public class Wishlist_StepDefinitions {
 
     //TC3
     @And("Clicking on remove button")
-    public void clickingOnRemoveButton_W() {
+    public void clickingOnRemoveButton() {
         wishlistPage.clickRemoveButton();
     }
 
     @Then("empty message should be displayed")
-    public void emptyMessageShouldBeDisplayed_W() {
+    public void emptyMessageShouldBeDisplayed() {
         if (!driver.getCurrentUrl().contains("wishlist")) {
             System.out.println("Redirected to login — cannot check empty wishlist message.");
             return;
@@ -107,7 +108,7 @@ public class Wishlist_StepDefinitions {
 
     //    TC4
     @And("Clicking on add to cart icon of the product")
-    public void clickingOnAddToCartIconOfTheProduct_W() {
+    public void clickingOnAddToCartIconOfTheProduct() {
         wishlistPage.clickAddToCartButtonOnProduct();
     }
 
@@ -115,7 +116,7 @@ public class Wishlist_StepDefinitions {
     int oldCount;
 
     @When("user click on wishlist icon to Different product")
-    public void userClickOnWishlistIconForDifferentProduct_W() throws InterruptedException {
+    public void userClickOnWishlistIconForDifferentProduct() throws InterruptedException {
         oldCount = homePage.getWishlistCount();
         System.out.println("DEBUG: Count BEFORE click: " + oldCount);
         Thread.sleep(1000);
@@ -237,7 +238,7 @@ public class Wishlist_StepDefinitions {
     }
 
     @Then("User redirect to viewCart page")
-    public void userRedirectToViewCartPage_W() {
+    public void userRedirectToViewCartPage() {
         Assert.assertEquals(Hooks.driver.getCurrentUrl(), "http://localhost/opencart/index.php?route=checkout/cart&language=en-gb");
     }
 
@@ -247,28 +248,28 @@ public class Wishlist_StepDefinitions {
     }
 
     @Then("User redirect to checkout page")
-    public void userRedirectToCheckoutPage_W() {
+    public void userRedirectToCheckoutPage() {
         Assert.assertEquals(Hooks.driver.getCurrentUrl(), "http://localhost/opencart/index.php?route=checkout/checkout&language=en-gb");
     }
 
     @When("Clicking on MyAccount link at the right of the page")
-    public void clickingOnMyAccountLink_W() {
+    public void clickingOnMyAccountLink() {
         wishlistPage.clickOnMyAccountLink();
     }
 
-    @Then("user redirected to MyAccount page")
-    public void userRedirectedToMyAccountPage_W() {
+    @Then("user redirected to MyAccount page_A")
+    public void userRedirectedToMyAccountPage() {
         Assert.assertTrue(driver.getCurrentUrl().contains("account/account"));
     }
 
 
     @When("Clicking on Edit Account link at the right of the page")
-    public void clickingOnEditAccountLink_W() {
+    public void clickingOnEditAccountLink() {
         wishlistPage.clickOnEditAccountLink();
     }
 
-    @Then("user redirected to Edit Account page")
-    public void userRedirectedToEditAccountPage_W() {
+    @Then("user redirected to Edit Account page_A")
+    public void userRedirectedToEditAccountPage() {
         Assert.assertTrue(driver.getCurrentUrl().contains("account/edit"));
     }
 
@@ -289,7 +290,7 @@ public class Wishlist_StepDefinitions {
     }
 
     @Then("user redirected to Payment Methods page")
-    public void userRedirectedToPaymentMethodsPage_W() {
+    public void userRedirectedToPaymentMethodsPage() {
         Assert.assertTrue(driver.getCurrentUrl().contains("account/payment"));
     }
 
@@ -310,7 +311,7 @@ public class Wishlist_StepDefinitions {
     }
 
     @Then("user shouldn't redirected to any page")
-    public void userRedirectedToWishListPage_W() {
+    public void userRedirectedToWishListPage() {
         Assert.assertTrue(driver.getCurrentUrl().contains("account/wishlist"));
     }
 
@@ -332,7 +333,7 @@ public class Wishlist_StepDefinitions {
     }
 
     @Then("user redirected to Downloads page")
-    public void userRedirectedToDownloadsPage_W() {
+    public void userRedirectedToDownloadsPage() {
         Assert.assertTrue(driver.getCurrentUrl().contains("account/download"));
     }
 
@@ -343,7 +344,7 @@ public class Wishlist_StepDefinitions {
     }
 
     @Then("user redirected to Subscriptions page")
-    public void userRedirectedToSubscriptionsPage_W() {
+    public void userRedirectedToSubscriptionsPage() {
         Assert.assertTrue(driver.getCurrentUrl().contains("account/subscription"));
     }
 
@@ -365,7 +366,7 @@ public class Wishlist_StepDefinitions {
     }
 
     @Then("user redirected to Returns page")
-    public void userRedirectedToReturnsPage_W() {
+    public void userRedirectedToReturnsPage() {
         Assert.assertTrue(driver.getCurrentUrl().contains("account/returns"));
     }
 
@@ -387,7 +388,7 @@ public class Wishlist_StepDefinitions {
     }
 
     @Then("user redirected to Newsletter page")
-    public void userRedirectedToNewsletterPage_W() {
+    public void userRedirectedToNewsletterPage() {
         Assert.assertTrue(driver.getCurrentUrl().contains("account/newsletter"));
     }
 
@@ -398,7 +399,7 @@ public class Wishlist_StepDefinitions {
     }
 
     @Then("user redirected to Logout page")
-    public void userRedirectedToLogoutPage_W() {
+    public void userRedirectedToLogoutPage() {
         Assert.assertTrue(driver.getCurrentUrl().contains("logout"));
     }
 

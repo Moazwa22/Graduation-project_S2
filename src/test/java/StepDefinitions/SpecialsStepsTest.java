@@ -1,9 +1,9 @@
 package StepDefinitions;
 
-import Pages.HomePage;
+import Pages.Home.HomePage;
 import Pages.SpecialsPage;
-import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+
 import static StepDefinitions.Hooks.driver;
 
 public class SpecialsStepsTest {
